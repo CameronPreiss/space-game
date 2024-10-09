@@ -19,7 +19,7 @@ bool Player::removeMoney(int money) {
 int Player::get_money() {
   return this->money;
 }
-Ship* Player::get_combatLog() {
+Ship** Player::get_combatLog() {
   return this->combatLog;
 }
 int Player::get_numCombats() {

@@ -10,4 +10,4 @@ private:
   
 };
 
-#endif SPACEOBJECT_H
+#endif 
