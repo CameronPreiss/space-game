@@ -11,10 +11,17 @@ public:
   int get_money();
   Ship** get_combatLog();
   int get_numCombats();
+  int get_speed();
+  int* get_location();
   void addCombat(Ship* ship);
+  void move(int coords[2]);
+  Ship* scan();
   ~Player();
 private:
+  int location[2];
   int money;
+  int fuel;
+  int speed;
   Ship** combatLog;
   int numCombats;
 };

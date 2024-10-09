@@ -10,7 +10,7 @@ public:
     testAddObject();
     testDestroyObject();
     testDestroyEmpty();
-    testAddFull();
+    testMovePlayer();
   }
 private:
   void testAddObject() {
@@ -42,14 +42,24 @@ private:
       std::cout << "DestroyEmpty test failed :(\n";
     }
   }
-  void testAddFull() {
-    Map map(1);
-    SpaceObject testObject;
-    map.addObject(&testObject);
-    if (map.addObject(&testObject) == false) {
-      std::cout << "AddFull test passed :)\n";
+  void testMovePlayer() {
+    Map map(10);
+    int direction[2] = {1,0};
+    map.movePlayer(direction);
+    if (map.get_player()->get_location()[0] == 5 && map.get_player()->get_location()[1] == 0) {
+      std::cout << "MovePlayer test passed :)\n";
     } else {
-      std::cout << "AddFull test failed :(\n";
+      std::cout << "MovePlayer test failed :(\n";
+    }
+  }
+  void testMoveBorder() {
+    Map map(5);
+    int direction[2] = {1,0};
+    map.movePlayer(direction);
+    if (map.movePlayer(direction) == false) {
+      std::cout << "MoveBorder test passed :)\n";
+    } else {
+      std::cout << "MoveBorder test failed :(\n";
     }
   }
 };

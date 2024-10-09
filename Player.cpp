@@ -4,6 +4,9 @@ Player::Player() {
   this->money = 0;
   this->numCombats = 0;
   this->combatLog = nullptr;
+  this->location[0] = 0;
+  this->location[1] = 0;
+  this->speed = 5;
 }
 void Player::addMoney(int money) {
   this->money += money;
@@ -25,6 +28,12 @@ Ship** Player::get_combatLog() {
 int Player::get_numCombats() {
   return this->numCombats;
 }
+int Player::get_speed() {
+  return this->speed;
+}
+int* Player::get_location() {
+  return this->location;
+}
 void Player::addCombat(Ship* ship) {
   Ship** tempCombatLog = new Ship*[this->numCombats+1];
   for (int i = 0; i < this->numCombats; i++) {
@@ -35,6 +44,13 @@ void Player::addCombat(Ship* ship) {
   this->combatLog = tempCombatLog;
   this->numCombats++;
 }
+void Player::move(int coords[2]) {
+  this->location[0] = coords[0];
+  this->location[1] = coords[1];
+}
+// Ship* Player::scan() {
+//   
+// }
 Player::~Player() {
   delete[] this->combatLog;
 }
