@@ -11,6 +11,7 @@ public:
     testDestroyObject();
     testDestroyEmpty();
     testMovePlayer();
+    testScan();
   }
 private:
   void testAddObject() {
@@ -60,6 +61,23 @@ private:
       std::cout << "MoveBorder test passed :)\n";
     } else {
       std::cout << "MoveBorder test failed :(\n";
+    }
+  }
+  void testScan() {
+    Map map(5);
+    SpaceObject* spaceObjects[4];
+    int coords[4][2] = {{0,0},{0,3},{-3,-3},{10,0}};
+    for (int i = 0; i < 4; i++) {
+      spaceObjects[i] = new SpaceObject(coords[i]);
+      map.addObject(spaceObjects[i]);
+    }
+    if (map.scan().size() == 3) {
+      std::cout << "Scan test passed :)\n";
+    } else {
+      std::cout << "Scan test failed :(\n";
+    }
+    for (int i = 0; i < 3; i++) {
+      delete spaceObjects[i];
     }
   }
 };

@@ -1,6 +1,7 @@
 #include "Map.h"
 #include <cstdlib>
 #include <algorithm>
+#include <vector>
 
 Map::Map(int mapSize) {
   this->numObjects = 0;
@@ -52,6 +53,15 @@ bool Map::movePlayer(int direction[2]) {
   } else {
     return false;
   }
+}
+std::vector<SpaceObject*> Map::scan() {
+  std::vector<SpaceObject*> nearby;
+  for (int i = 0; i < this->numObjects; i++) {
+    if (abs(this->player->get_location()[0] - this->spaceObjects[i]->get_location()[0]) <= this->player->get_scanRadius() && abs(this->player->get_location()[1] - this->spaceObjects[i]->get_location()[1]) <= this->player->get_scanRadius()) {
+      nearby.push_back(this->spaceObjects[i]);
+    }
+  }
+  return nearby;
 }
 Map::~Map() {
   delete[] this->spaceObjects;

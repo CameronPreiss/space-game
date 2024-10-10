@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Ship.h"
+#include <vector>
 
 class Player {
 public:
@@ -13,15 +14,16 @@ public:
   int get_numCombats();
   int get_speed();
   int* get_location();
+  int get_scanRadius();
   void addCombat(Ship* ship);
   void move(int coords[2]);
-  Ship* scan();
   ~Player();
 private:
   int location[2];
   int money;
   int fuel;
   int speed;
+  int scanRadius;
   Ship** combatLog;
   int numCombats;
 };
