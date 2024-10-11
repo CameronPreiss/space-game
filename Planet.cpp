@@ -4,7 +4,7 @@
 #include <chrono>
 #include <thread>
 
-Planet::Planet() {
+Planet::Planet() : SpaceObject() {
     population = 0;
     prices = nullptr;
     sellableResources = nullptr;
