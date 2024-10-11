@@ -8,8 +8,8 @@ class Ship : public SpaceObject {
 protected:
   int HealthPoints;
   int Damage;
-  int inventory[3];
   int inventoryCount;
+  int* inventory;
 public:
   Ship();
   Ship(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
@@ -23,6 +23,12 @@ public:
 
   virtual void set_health(int health);
   virtual void set_damage(int damage);
+
+  virtual int get_inventoryCount();
+
+  virtual int* get_inventory();
+
+  void interact() const {};
 };
 
 #endif
