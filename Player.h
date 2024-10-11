@@ -1,27 +1,32 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "SpaceObject.h"
-#include <string>
+#include <vector>
 
-class Player : public SpaceObject {
-    public:
-        float money;
-        float* resources; 
-        int resourcesArraySize;
-        Player();
-        Player(int* location, std::string name, int size, float money, int resourcesArraySize);
-        ~Player();
-
-        void scanInfo() const override;
-        void interact() const override;
-
-        void set_money(float money);
-        float get_money() const;
-
-        void set_resources(float* resources, int resourcesArraySize);
-        float* get_resources() const;
-        int get_resourcesArraySize() const;
+class Player {
+public:
+  Player();
+  void addMoney(int money);
+  bool removeMoney(int money);
+  int get_money();
+  Ship** get_combatLog();
+  int get_numCombats();
+  int get_speed();
+  int* get_location();
+  int get_scanRadius();
+  void addCombat(Ship* ship);
+  void move(int coords[2]);
+  ~Player();
+private:
+  int location[2];
+  int money;
+  int fuel;
+  float* resources;
+  int resourcesArraySize;
+  int speed;
+  int scanRadius;
+  Ship** combatLog;
+  int numCombats;
 };
 
-#endif
+#endif // !PLAYER_H

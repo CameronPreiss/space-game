@@ -1,52 +1,63 @@
 #include "Player.h"
-#include <iostream>
 
-Player::Player() : SpaceObject() {
-    money = 0.0;
-    resources = nullptr;
-    resourcesArraySize = 0;
+Player::Player() {
+  this->money = 0;
+  this->numCombats = 0;
+  this->combatLog = nullptr;
+  this->location[0] = 0;
+  this->location[1] = 0;
+  this->speed = 5;
+  this->scanRadius = 5;
 }
-
-Player::Player(int* location, std::string name, int size, float money, int resourcesArraySize) 
-    : SpaceObject(location, name, size) {
-    this->money = money;
-    this->resourcesArraySize = resourcesArraySize;
-    resources = new float[resourcesArraySize](); 
+void Player::addMoney(int money) {
+  this->money += money;
 }
-
+bool Player::removeMoney(int money) {
+  if (this->money >= money) {
+    this->money -= money;
+    return 1;
+  } else {
+    return 0;
+  }
+}
+int Player::get_money() {
+  return this->money;
+}
+Ship** Player::get_combatLog() {
+  return this->combatLog;
+}
+int Player::get_numCombats() {
+  return this->numCombats;
+}
+int Player::get_speed() {
+  return this->speed;
+}
+int* Player::get_location() {
+  return this->location;
+}
+int Player::get_scanRadius() {
+  return this->scanRadius;
+}
+float* Player::get_resources() {
+   return resources;
+}
+int Player::get_resourcesArraySize() {
+   return resourcesArraySize;
+}
+void Player::addCombat(Ship* ship) {
+  Ship** tempCombatLog = new Ship*[this->numCombats+1];
+  for (int i = 0; i < this->numCombats; i++) {
+    tempCombatLog[i] = this->combatLog[i];
+  }
+  tempCombatLog[this->numCombats] = ship;
+  delete[] this->combatLog;
+  this->combatLog = tempCombatLog;
+  this->numCombats++;
+}
+void Player::move(int coords[2]) {
+  this->location[0] = coords[0];
+  this->location[1] = coords[1];
+}
 Player::~Player() {
-    delete[] resources;
+  delete[] this->combatLog;
 }
-
-void Player::scanInfo() const {
-    std::cout << "Player: " << get_name() << " at location (" << get_location()[0] << "," << get_location()[1] << ")"
-              << " Size: " << get_size() << std::endl;
-    std::cout << "Money: " << money << std::endl;
-}
-
-void Player::interact() const {
-    std::cout << "Interacting with Player: " << get_name() << std::endl;
-    std::cout << "Current money: " << money << std::endl;
-}
-
-void Player::set_money(float money) {
-    this->money = money;
-}
-
-float Player::get_money() const {
-    return money;
-}
-
-void Player::set_resources(float* resources, int resourcesArraySize) {
-    this->resources = resources;
-    this->resourcesArraySize = resourcesArraySize;
-}
-
-float* Player::get_resources() const {
-    return resources;
-}
-
-int Player::get_resourcesArraySize() const {
-    return resourcesArraySize;
-}
-
