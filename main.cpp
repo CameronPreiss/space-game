@@ -1,14 +1,7 @@
-#include "MapTests.h"
-#include "PlayerTests.h"
-#include "Map.h"
-#include <iostream>
+#include "Interface.h"
 
 int main() {
-  MapTests mapTests;
-  std::cout << "Map tests:\n";
-  mapTests.runTests();
-  PlayerTests playerTests;
-  std::cout << "Player tests:\n";
-  playerTests.runTests();
+  Interface game;
+  game.startGame();
   return 0;
 }

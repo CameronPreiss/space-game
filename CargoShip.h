@@ -6,20 +6,22 @@
 
 class CargoShip : public Ship{
 
-    public:
-    
-    CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size) ;
-    void shield(int Damage);
+public:
 
-    void AttackShip(Ship& Enemy, int Damage);
-    void ReceiveDamage(int damageTaken);
-    bool isDestroyed();
+  void interact() {}
 
-    int get_health();
-    int get_damage();
+  CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
+  void shield(int Damage);
 
-    void set_health(int health);
-    void set_damage(int damage);
+  void AttackShip(Ship& Enemy, int Damage);
+  void ReceiveDamage(int damageTaken);
+  bool isDestroyed();
+
+  int get_health();
+  int get_damage();
+
+  void set_health(int health);
+  void set_damage(int damage);
 
 };
 
