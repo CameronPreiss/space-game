@@ -1,23 +1,24 @@
-// temp SpaceObject.h for testing
+#ifndef SpaceObject_H
+#define SpaceObject_H
+#include <iostream>
+#include <string>
 
-#ifndef SPACEOBJECT_H
-#define SPACEOBJECT_H
-
-class SpaceObject {
-public:
-  SpaceObject() {
-    this->location[0] = 0;
-    this->location[1] = 0;
-  }
-  SpaceObject(int coords[2]) {
-    this->location[0] = coords[0];
-    this->location[1] = coords[1];
-  }
-  int* get_location() {
-    return this->location;
-  }
-private:
-  int location[2];
+class SpaceObject{
+    private:
+        int location[2];
+        std::string name;
+        int size;
+    public:
+        SpaceObject();
+        SpaceObject(int* location, std::string name, int size);
+        virtual void scanInfo() const;
+        virtual void interact() const = 0;
+        void set_size(int size);
+        int get_size() const;
+        void set_location(int* location);
+        const int* get_location() const;
+        void set_name(std::string name);
+        std::string get_name() const;
 };
 
-#endif 
+#endif

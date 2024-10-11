@@ -38,6 +38,12 @@ int* Player::get_location() {
 int Player::get_scanRadius() {
   return this->scanRadius;
 }
+float* Player::get_resources() {
+   return resources;
+}
+int Player::get_resourcesArraySize() {
+   return resourcesArraySize;
+}
 void Player::addCombat(Ship* ship) {
   Ship** tempCombatLog = new Ship*[this->numCombats+1];
   for (int i = 0; i < this->numCombats; i++) {

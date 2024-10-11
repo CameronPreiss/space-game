@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Ship.h"
 #include <vector>
 
 class Player {
@@ -22,6 +21,8 @@ private:
   int location[2];
   int money;
   int fuel;
+  float* resources;
+  int resourcesArraySize;
   int speed;
   int scanRadius;
   Ship** combatLog;
