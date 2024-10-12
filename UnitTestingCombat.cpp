@@ -4,8 +4,7 @@
 #include <iostream>
 
 int main(){
-
-    CombatTest combatTest;
-    combatTest.runTest();
+  CombatTest combatTest;
+  combatTest.runTest();
 
 }

@@ -11,13 +11,11 @@ private:
   int population;
   int pricesArraySize;
   float* prices;
-  int resourcesArraySize;
-  float* sellableResources;
   std::string economyStatus;
 
 public:
   Planet();
-  Planet(int population, float* prices, int pricesArraySize, float* sellableResources, int resourcesArraySize, std::string economyStatus, int* location, std::string name, int size);
+  Planet(int population, float* prices, int pricesArraySize, std::string economyStatus, int* location, std::string name, int size);
   ~Planet();
   void scanInfo() const override;
   void interact() const override;
@@ -27,16 +25,15 @@ public:
   void sell(Player& p1);
   void set_population(int population);
   void set_prices(float* prices, int size);
-  void set_sellableResources(float* sellableResources, int size);
   void set_economyStatus(std::string economyStatus);
   int get_population() const;
   float* get_prices() const;
-  float* get_sellableResources() const;
   std::string get_economyStatus() const;
   int get_health() override { return 0; }
   int get_damage() override { return 0; }
   int get_inventoryCount() override { return 0; }
   int* get_inventory() override { return nullptr; }
+  void randomise() override;
 };
 
 #endif

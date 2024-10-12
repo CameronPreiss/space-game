@@ -9,6 +9,9 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include <random>
+#include <set>
+#include <tuple>
 
 namespace fs = std::filesystem;
 using namespace std;
@@ -18,6 +21,13 @@ Map::Map() {
   this->mapSize = 50;
   this->spaceObjects = nullptr;
   this->player = new Player;
+  this->saveIndex = -1;
+}
+Map::Map(std::string name) {
+  this->numObjects = 0;
+  this->mapSize = 50;
+  this->spaceObjects = nullptr;
+  this->player = new Player(name);
   this->saveIndex = -1;
 }
 void Map::addObject(SpaceObject* object) {
@@ -87,7 +97,7 @@ void Map::loadFromFile(int index) {
   std::string name;
   int playerPos[2];
   int money;
-  float* resources;
+  int* resources;
   int resourcesArraySize;
   int speed;
   int scanRadius;
@@ -95,7 +105,7 @@ void Map::loadFromFile(int index) {
   inFile >> playerPos[0] >> playerPos[1];
   inFile >> money;
   inFile >> resourcesArraySize;
-  resources = new float[resourcesArraySize];
+  resources = new int[resourcesArraySize];
   for (int i = 0; i < resourcesArraySize; i++) {
     inFile >> resources[i];
   }
@@ -137,8 +147,6 @@ void Map::loadFromFile(int index) {
       int population;
       int pricesArraySize;
       float* prices = new float[pricesArraySize];
-      int resourcesArraySize;
-      float* sellableResources = new float[resourcesArraySize];
       std::string economyStatus;
       inFile >> population;
       inFile >> pricesArraySize;
@@ -146,13 +154,8 @@ void Map::loadFromFile(int index) {
       for (int i = 0; i < pricesArraySize; i++) {
         inFile >> prices[i];
       }
-      inFile >> resourcesArraySize;
-      sellableResources = new float[resourcesArraySize];
-      for (int i = 0; i < resourcesArraySize; i++) {
-        inFile >> sellableResources[i];
-      }
       inFile >> economyStatus;
-      this->spaceObjects[i] = new Planet(population, prices, pricesArraySize, sellableResources, resourcesArraySize, economyStatus, location, name, size);
+      this->spaceObjects[i] = new Planet(population, prices, pricesArraySize, economyStatus, location, name, size);
     }
   }
   inFile.close();
@@ -201,6 +204,46 @@ void Map::saveToFile() {
     }
   }
   outFile.close();
+}
+void Map::randomise() {
+  delete[] this->spaceObjects;
+  this->spaceObjects = nullptr;
+  this->numObjects = 0;
+  for (int i = 0; i < 20; i++) {
+    // set up random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, 2); // for object type
+    int randomValue = distrib(gen);    
+    std::uniform_int_distribution<> distribCoord(-this->mapSize, this->mapSize); // For object coordinates
+    // choose location
+    // Use a set to store coordinates and avoid duplicates
+    std::set<tuple<int, int>> usedCoordinates;
+    int location[2];
+    do {
+      location[0] = distribCoord(gen);
+      location[1] = distribCoord(gen);
+    } while(usedCoordinates.find(make_tuple(location[0], location[1])) != usedCoordinates.end());
+    // create object
+    SpaceObject* nextObject;
+    switch (randomValue) {
+      case 0:
+        nextObject = new Planet;
+        break;
+      case 1:
+        nextObject = new CargoShip;
+        break;
+      case 2:
+        nextObject = new CombatShip;
+        break;
+    }
+    // call randomise function of object
+    nextObject->randomise();
+    // set location of object
+    nextObject->set_location(location);
+    // add object to map
+    this->addObject(nextObject);
+  }
 }
 Map::~Map() {
   delete[] this->spaceObjects;

@@ -22,6 +22,7 @@ Interface::Interface() {
     this->saves.push_back(new Map);
     this->saves[i]->loadFromFile(i);
   }
+  this->map = nullptr;
 }
 void Interface::startGame() {
   cout << "Welcome to Space Explorers!\n";
@@ -44,7 +45,11 @@ void Interface::startGame() {
       }
     case 1:
       cout << "Creating new game\n";
-      this->map = new Map;
+      std::string name;
+      cout << "Enter a name: ";
+      cin >> name;
+      this->map = new Map(name);
+      this->map->randomise();
       break;
   }
   this->gameLoop();

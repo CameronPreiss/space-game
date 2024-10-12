@@ -3,35 +3,31 @@
 #include <string>
 #include <chrono>
 #include <thread>
+#include <random>
+#include <set>
+#include <tuple>
 
 Planet::Planet() : SpaceObject() {
   population = 0;
   prices = nullptr;
-  sellableResources = nullptr;
-  pricesArraySize = 0;
-  resourcesArraySize = 0;
+  pricesArraySize = 10;
   economyStatus = "Unknown";
+  this->set_type("Planet");
 }
 
-Planet::Planet(int population, float* prices, int pricesArraySize, float* sellableResources, int resourcesArraySize, std::string economyStatus, int* location, std::string name, int size) : SpaceObject(location, name, size) {
+Planet::Planet(int population, float* prices, int pricesArraySize, std::string economyStatus, int* location, std::string name, int size) : SpaceObject(location, name, size) {
   this->set_type("Planet");
   this->population = population;
   this->pricesArraySize = pricesArraySize;
-  this->resourcesArraySize = resourcesArraySize;
   this->prices = new float[pricesArraySize];
-  this->sellableResources = new float[resourcesArraySize];
   for (int i = 0; i < pricesArraySize; i++){
     this->prices[i] = prices[i];
-  }
-  for (int i = 0; i < resourcesArraySize; i++){
-    this->sellableResources[i] = sellableResources[i];
   }
   this->economyStatus = economyStatus;
 }
 
 Planet::~Planet() {
   delete[] prices; // Free the prices array
-  delete[] sellableResources; // Free the sellableResources array
 }
 
 void Planet::scanInfo() const {
@@ -117,12 +113,12 @@ void Planet::buyingProcess(Player& p1, int resourceIndex) {
 
 void Planet::sell(Player& p1) {
   std::cout << "\nYour resources:" << std::endl;
-  for (int i = 0; i < resourcesArraySize; i++){
+  for (int i = 0; i < this->pricesArraySize; i++){
     std::cout << i + 1 << ". Resource " << i + 1 << " Count: " << p1.get_resources()[i] << std::endl;
   }
   std::cout << "\nAvailable resources to sell:" << std::endl;
-  for (int i = 0; i < resourcesArraySize; i++) {
-    std::cout << i + 1 << ". Resource " << i + 1 << " Price: $" << sellableResources[i] << std::endl;
+  for (int i = 0; i < this->pricesArraySize; i++) {
+    std::cout << i + 1 << ". Resource " << i + 1 << " Price: $" << 0.75*prices[i] << std::endl;
   }
 
   std::cout << "Enter the index of the resource you want to sell (or '0' to cancel): ";
@@ -132,7 +128,7 @@ void Planet::sell(Player& p1) {
     std::cout << "Cancelling selling." << std::endl;
     return;
   }
-  while(std::cin.fail() || testIndex <= 0 || testIndex > resourcesArraySize){
+  while(std::cin.fail() || testIndex <= 0 || testIndex > this->pricesArraySize){
     std::cout << "Error, not a valid integer, enter a new integer: ";
     std::cin.clear();
     std::cin.ignore(256, '\n');
@@ -155,7 +151,7 @@ void Planet::sell(Player& p1) {
 
   if (p1.get_resources()[resourceIndex - 1] >= quantity) {
     p1.get_resources()[resourceIndex - 1] -= quantity;
-    p1.addMoney(sellableResources[resourceIndex - 1] * quantity);
+    p1.addMoney(0.75*prices[resourceIndex - 1] * quantity);
     std::cout << "You sold " << quantity << " units of resource " << resourceIndex << "." << std::endl;
     std::cout << "Money after selling: $" << p1.get_money() << std::endl;
   } else {
@@ -172,11 +168,6 @@ void Planet::set_prices(float* prices, int size) {
   this->pricesArraySize = size;
 }
 
-void Planet::set_sellableResources(float* sellableResources, int size) {
-  this->sellableResources = sellableResources;
-  this->resourcesArraySize = size;
-}
-
 void Planet::set_economyStatus(std::string economyStatus) {
   this->economyStatus = economyStatus;
 }
@@ -189,10 +180,49 @@ float* Planet::get_prices() const {
   return prices;
 }
 
-float* Planet::get_sellableResources() const {
-  return sellableResources;
-}
-
 std::string Planet::get_economyStatus() const {
   return economyStatus;
+}
+
+void Planet::randomise() {
+  // name generator
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> distribPrefix(0,4);
+  std::uniform_int_distribution<> distribSuffix(0,4);
+  std::vector<std::string> prefixes = {"Beta","Epsilon","Alpha","Gamma","Delta"};
+  std::vector<std::string> suffixes = {"III","IV","Minor","Major","Prime"};
+  int prefix = distribPrefix(gen);
+  int suffix = distribSuffix(gen);
+  std::string name = prefixes[prefix] + " " + suffixes[suffix];
+  this->set_name(name);
+
+  // set up random number generator
+  std::uniform_int_distribution<> distribPopulation(5000, 2000000); // for population
+  std::uniform_real_distribution<> distribPrice(0,100); // for item prices
+  std::uniform_int_distribution<> distribEconomy(0,2); // for economy status
+  int numItems = this->pricesArraySize;
+  float* prices = new float[numItems];
+  // generate each item price randomly
+  for (int i = 0; i < numItems; i++) {
+    int itemPrice = distribPrice(gen);
+    prices[i] = itemPrice;
+  }
+  this->set_prices(prices, numItems);
+  // set population to random number
+  int population = distribPopulation(gen);
+  this->set_population(population);
+  // set economy status to random number
+  int status = distribEconomy(gen);
+  switch (status) {
+    case 0:
+      this->set_economyStatus("Great");
+      break;
+    case 1:
+      this->set_economyStatus("Okay");
+      break;
+    case 2:
+      this->set_economyStatus("Poor");
+      break;
+  }
 }
