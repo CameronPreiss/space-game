@@ -27,6 +27,7 @@ public:
   virtual int get_damage() = 0;
   virtual int get_inventoryCount() = 0;
   virtual int* get_inventory() { return nullptr; }
+  virtual void randomise() {};
 };
 
 #endif

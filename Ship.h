@@ -27,8 +27,12 @@ public:
   virtual int get_inventoryCount();
 
   virtual int* get_inventory();
+  virtual void addItem(int index);
 
   void interact() const {};
+
+  virtual void randomise() {};
+  void generateName();
 };
 
 #endif

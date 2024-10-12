@@ -7,8 +7,13 @@ Player::Player() {
   this->location[1] = 0;
   this->speed = 5;
   this->scanRadius = 5;
+  this->resourcesArraySize = 10;
+  this->resources = new int[10];
+  for (int i = 0; i < 10; i++) {
+    this->resources[i] = 0;
+  }
 }
-Player::Player(std::string name, int location[2], int money, int resourcesArraySize, float* resources, int speed, int scanRadius) {
+Player::Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius) {
   this->location[0] = location[0];
   this->location[1] = location[1];
   this->money = money;
@@ -16,6 +21,14 @@ Player::Player(std::string name, int location[2], int money, int resourcesArrayS
   this->resourcesArraySize = resourcesArraySize;
   this->speed = speed;
   this->scanRadius = scanRadius;
+}
+Player::Player(std::string name) {
+  this->name = name;
+  this->money = 0;
+  this->location[0] = 0;
+  this->location[1] = 0;
+  this->speed = 5;
+  this->scanRadius = 5;
 }
 void Player::addMoney(int money) {
   this->money += money;
@@ -40,7 +53,7 @@ int* Player::get_location() {
 int Player::get_scanRadius() {
   return this->scanRadius;
 }
-float* Player::get_resources() {
+int* Player::get_resources() {
   return this->resources;
 }
 int Player::get_resourcesArraySize() {
@@ -53,5 +66,23 @@ void Player::move(int coords[2]) {
   this->location[0] = coords[0];
   this->location[1] = coords[1];
 }
+bool Player::addResource(int index) {
+  if (index >= 0 && index < this->resourcesArraySize) {
+    this->resources[index]++;
+    return true;
+  } else {
+    return false;
+  }
+}
+bool Player::removeResource(int index, int amount) {
+  if (index >= 0 && index < this->resourcesArraySize && amount <= this->resources[index]) {
+    this->resources[index]--;
+    return true;
+  } else {
+    return false;
+  }
+}
 Player::~Player() {
+
+  delete[] this->resources;
 }

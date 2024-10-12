@@ -7,19 +7,21 @@
 class CombatShip : public Ship{
 
 public:
+  CombatShip();
   CombatShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size);
   void doubleAttack(Ship& Enemy, int Damage);
 
-  void AttackShip(Ship& Enemy, int Damage);
-  void ReceiveDamage(int damageTaken);
-  bool isDestroyed();
+  void AttackShip(Ship& Enemy, int Damage) override;
+  void ReceiveDamage(int damageTaken) override;
+  bool isDestroyed() override;
 
-  int get_health();
-  int get_damage();
+  int get_health() override;
+  int get_damage() override;
 
-  void set_health(int health);
-  void set_damage(int damage);
+  void set_health(int health) override;
+  void set_damage(int damage) override;
 
+  void randomise() override;
 };
 
 #endif

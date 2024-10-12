@@ -8,6 +8,7 @@
 class Map {
 public:
   Map();
+  Map(std::string name);
   void addObject(SpaceObject* object);
   bool destroyObject(int index);
   int get_mapSize();
@@ -17,6 +18,7 @@ public:
   std::vector<SpaceObject*> scan();
   void loadFromFile(int index);
   void saveToFile();
+  void randomise();
   ~Map();
 private:
   int mapSize;
