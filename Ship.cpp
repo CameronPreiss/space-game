@@ -5,7 +5,7 @@ Ship::Ship() : SpaceObject(){
   this->HealthPoints = 0;
   this->Damage = 0;
   this->inventoryCount = 10;
-  int inventory[10];
+  int* inventory = new int[10];
   for (int i = 0; i < 10; i++){
     inventory[i] = 0;
   }
@@ -15,6 +15,7 @@ Ship::Ship() : SpaceObject(){
 Ship::Ship(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size) : SpaceObject(location, name, size){
   this->HealthPoints = HealthPoints;
   this->Damage = Damage;
+  this->inventory = new int[10];
   for (int i = 0; i < inventoryCount; i++){
     this->inventory[i] = inventory[i];
   }
@@ -73,6 +74,10 @@ void Ship::generateName() {
   int prefix = distribPrefix(gen);
   int fix = distribFix(gen);
   int suffix = distribSuffix(gen);
-  std::string name = prefixes[prefix] + " " + fixes[fix] + " " + suffixes[suffix];
+  std::string name = prefixes[prefix] + "-" + fixes[fix] + "-" + suffixes[suffix];
   this->set_name(name);
+}
+
+Ship::~Ship() {
+  delete[] this->inventory;
 }

@@ -21,6 +21,7 @@ Player::Player(std::string name, int location[2], int money, int resourcesArrayS
   this->resourcesArraySize = resourcesArraySize;
   this->speed = speed;
   this->scanRadius = scanRadius;
+  this->name = name;
 }
 Player::Player(std::string name) {
   this->name = name;

@@ -57,7 +57,7 @@ void Interface::startGame() {
 void Interface::gameLoop() {
   bool active = true;
   while (active) {
-    cout << "Current location: (" << this->map->get_player()->get_location()[0] << "," << this->map->get_player()->get_location()[1] << ")\n";
+    cout << "Player name: " << this->map->get_player()->get_name() << ", Current location: (" << this->map->get_player()->get_location()[0] << "," << this->map->get_player()->get_location()[1] << ")\n";
     cout << "[0] Move ship\n";
     cout << "[1] Scan for nearby objects\n";
     cout << "[2] View inventory\n";

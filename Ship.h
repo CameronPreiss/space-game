@@ -33,6 +33,8 @@ public:
 
   virtual void randomise() {};
   void generateName();
+
+  ~Ship();
 };
 
 #endif
