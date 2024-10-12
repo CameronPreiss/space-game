@@ -1,11 +1,7 @@
 #include "Planet.h"
 #include <iostream>
 #include <string>
-#include <chrono>
-#include <thread>
 #include <random>
-#include <set>
-#include <tuple>
 
 Planet::Planet() : SpaceObject() {
   population = 0;
@@ -15,11 +11,11 @@ Planet::Planet() : SpaceObject() {
   this->set_type("Planet");
 }
 
-Planet::Planet(int population, float* prices, int pricesArraySize, std::string economyStatus, int* location, std::string name, int size) : SpaceObject(location, name, size) {
+Planet::Planet(int population, int* prices, int pricesArraySize, std::string economyStatus, int* location, std::string name, int size) : SpaceObject(location, name, size) {
   this->set_type("Planet");
   this->population = population;
   this->pricesArraySize = pricesArraySize;
-  this->prices = new float[pricesArraySize];
+  this->prices = new int[pricesArraySize];
   for (int i = 0; i < pricesArraySize; i++){
     this->prices[i] = prices[i];
   }
@@ -99,7 +95,7 @@ void Planet::buyingProcess(Player& p1, int resourceIndex) {
   }
   int quantity = quantityTest;
 
-  float totalCost = prices[resourceIndex] * quantity;
+  int totalCost = prices[resourceIndex] * quantity;
 
   if (p1.get_money() >= totalCost) {
     p1.get_resources()[resourceIndex] += quantity;
@@ -163,7 +159,7 @@ void Planet::set_population(int population) {
   this->population = population;
 }
 
-void Planet::set_prices(float* prices, int size) {
+void Planet::set_prices(int* prices, int size) {
   this->prices = prices;
   this->pricesArraySize = size;
 }
@@ -176,7 +172,7 @@ int Planet::get_population() const {
   return population;
 }
 
-float* Planet::get_prices() const {
+int* Planet::get_prices() const {
   return prices;
 }
 
@@ -194,7 +190,7 @@ void Planet::randomise() {
   std::vector<std::string> suffixes = {"III","IV","Minor","Major","Prime"};
   int prefix = distribPrefix(gen);
   int suffix = distribSuffix(gen);
-  std::string name = prefixes[prefix] + " " + suffixes[suffix];
+  std::string name = prefixes[prefix] + "-" + suffixes[suffix];
   this->set_name(name);
 
   // set up random number generator
@@ -202,7 +198,7 @@ void Planet::randomise() {
   std::uniform_real_distribution<> distribPrice(0,100); // for item prices
   std::uniform_int_distribution<> distribEconomy(0,2); // for economy status
   int numItems = this->pricesArraySize;
-  float* prices = new float[numItems];
+  int* prices = new int[numItems];
   // generate each item price randomly
   for (int i = 0; i < numItems; i++) {
     int itemPrice = distribPrice(gen);
@@ -225,4 +221,11 @@ void Planet::randomise() {
       this->set_economyStatus("Poor");
       break;
   }
+}
+
+int Planet::get_inventoryCount() {
+  return this->pricesArraySize;
+}
+int* Planet::get_inventory() {
+  return this->prices;
 }

@@ -28,6 +28,8 @@ public:
   virtual int get_inventoryCount() = 0;
   virtual int* get_inventory() { return nullptr; }
   virtual void randomise() {};
+  virtual int get_population() { return 0; };
+  virtual std::string get_economyStatus() { return "0"; }
 };
 
 #endif

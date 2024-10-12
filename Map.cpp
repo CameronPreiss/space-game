@@ -4,7 +4,6 @@
 #include "Planet.h"
 
 #include <cstdlib>
-#include <algorithm>
 #include <vector>
 #include <string>
 #include <filesystem>
@@ -15,6 +14,8 @@
 
 namespace fs = std::filesystem;
 using namespace std;
+
+int numItems = 10;
 
 Map::Map() {
   this->numObjects = 0;
@@ -118,44 +119,43 @@ void Map::loadFromFile(int index) {
     int location[2];
     std::string name;
     int size;
-    inFile >> type >> location[0] >> location[1] >> name >> size;
+    inFile >> type;
+    inFile >> location[0] >> location[1];
+    inFile >> name;
+    inFile >> size;
     if (type == "CargoShip") {
       int healthPoints;
       int damage;
-      int inventoryCount;
       int* inventory;
-      inFile >> healthPoints >> damage >> inventoryCount;
-      inventory = new int[inventoryCount];
-      for (int i = 0; i < inventoryCount; i++) {
-        inFile >> inventory[i];
+      inFile >> healthPoints >> damage ;
+      inventory = new int[numItems];
+      for (int j = 0; j < numItems; j++) {
+        inFile >> inventory[j];
       }
-      this->spaceObjects[i] = new CargoShip(healthPoints, damage, inventory, inventoryCount, name, location, size);
+      this->spaceObjects[i] = new CargoShip(healthPoints, damage, inventory, numItems, name, location, size);
     }
     if (type == "CombatShip") {
       int healthPoints;
       int damage;
-      int inventoryCount;
       int* inventory;
-      inFile >> healthPoints >> damage >> inventoryCount;
-      inventory = new int[inventoryCount];
-      for (int i = 0; i < inventoryCount; i++) {
-        inFile >> inventory[i];
+      inFile >> healthPoints >> damage;
+      inventory = new int[numItems];
+      for (int j = 0; j < numItems; j++) {
+        inFile >> inventory[j];
       }
-      this->spaceObjects[i] = new CombatShip(healthPoints, damage, inventory, inventoryCount, name, location, size);
+      this->spaceObjects[i] = new CombatShip(healthPoints, damage, inventory, numItems, name, location, size);
     }
     if (type == "Planet") {
       int population;
-      int pricesArraySize;
-      float* prices = new float[pricesArraySize];
+      int* prices = new int[numItems];
       std::string economyStatus;
       inFile >> population;
-      inFile >> pricesArraySize;
-      prices = new float[pricesArraySize];
-      for (int i = 0; i < pricesArraySize; i++) {
-        inFile >> prices[i];
+      prices = new int[numItems];
+      for (int j = 0; j < numItems; j++) {
+        inFile >> prices[j];
       }
       inFile >> economyStatus;
-      this->spaceObjects[i] = new Planet(population, prices, pricesArraySize, economyStatus, location, name, size);
+      this->spaceObjects[i] = new Planet(population, prices, numItems, economyStatus, location, name, size);
     }
   }
   inFile.close();
@@ -181,8 +181,8 @@ void Map::saveToFile() {
   std::ofstream outFile(filename);
   outFile << this->mapSize << std::endl;
   outFile << this->numObjects << std::endl;
-  outFile << this->player->get_name();
-  outFile << this->player->get_location()[0] << this->player->get_location()[1] << std::endl;
+  outFile << this->player->get_name() << std::endl;
+  outFile << this->player->get_location()[0] << std::endl << this->player->get_location()[1] << std::endl;
   outFile << this->player->get_money() << std::endl;
   outFile << this->player->get_resourcesArraySize() << std::endl;
   for (int i = 0; i < this->player->get_resourcesArraySize(); i++) {
@@ -191,16 +191,23 @@ void Map::saveToFile() {
   outFile << this->player->get_speed() << std::endl;
   outFile << this->player->get_scanRadius() << std::endl;
   for (int i = 0; i < this->numObjects; i++) {
-    outFile << this->spaceObjects[i]->get_type();
+    outFile << this->spaceObjects[i]->get_type() << std::endl;
     outFile << this->spaceObjects[i]->get_location()[0] << std::endl;
     outFile << this->spaceObjects[i]->get_location()[1] << std::endl;
     outFile << this->spaceObjects[i]->get_name() << std::endl;
     outFile << this->spaceObjects[i]->get_size() << std::endl;
-    outFile << this->spaceObjects[i]->get_health() << std::endl;
-    outFile << this->spaceObjects[i]->get_damage() << std::endl;
-    outFile << this->spaceObjects[i]->get_inventoryCount() << std::endl;
-    for (int i = 0; i < this->spaceObjects[i]->get_inventoryCount(); i++) {
-      outFile << this->spaceObjects[i]->get_inventory()[i];
+    if (this->spaceObjects[i]->get_type() == "Planet") {
+      outFile << this->spaceObjects[i]->get_population() << std::endl;
+      for (int j = 0; j < numItems; j++) {
+        outFile << this->spaceObjects[i]->get_inventory()[j] << std::endl;
+      }
+      outFile << this->spaceObjects[i]->get_economyStatus() << std::endl;
+    } else {
+      outFile << this->spaceObjects[i]->get_health() << std::endl;
+      outFile << this->spaceObjects[i]->get_damage() << std::endl;
+      for (int j = 0; j < numItems; j++) {
+        outFile << this->spaceObjects[i]->get_inventory()[j] << std::endl;
+      }
     }
   }
   outFile.close();
@@ -224,6 +231,7 @@ void Map::randomise() {
       location[0] = distribCoord(gen);
       location[1] = distribCoord(gen);
     } while(usedCoordinates.find(make_tuple(location[0], location[1])) != usedCoordinates.end());
+    usedCoordinates.insert(make_tuple(location[0], location[1]));
     // create object
     SpaceObject* nextObject;
     switch (randomValue) {
