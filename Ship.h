@@ -4,6 +4,7 @@
 #ifndef SHIP_H
 #define SHIP_H
 
+//abstract class, inherits from spaceObject, and will be inherited by combatShip and cargoShip
 class Ship : public SpaceObject {
 protected:
   //attributes of each ship
