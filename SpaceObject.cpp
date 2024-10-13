@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+//default constructor
 SpaceObject::SpaceObject(){
   location[0] = 0;
   location[1] = 0;
@@ -10,6 +11,7 @@ SpaceObject::SpaceObject(){
   type = "0";
 }
 
+//constructor
 SpaceObject::SpaceObject(int* location, std::string name, int size) {
   this->location[0] = location[0];
   this->location[1] = location[1];
@@ -17,9 +19,12 @@ SpaceObject::SpaceObject(int* location, std::string name, int size) {
   this->size = size;
 }
 
+//scanInfo function
 void SpaceObject::scanInfo() const{
-  std::cout << "SpaceObject: " << name << "At location" << location[0] << "," << location[1] << "Size: " << size << std::endl;
+  std::cout << "SpaceObject: " << name << "At location" << location[0] << "," << location[1] << "Size: " << size << std::endl; //displays the attributes of the spaceObject
 }
+
+//setters and getters
 void SpaceObject::set_size(int size){
   this->size = size;
 }
