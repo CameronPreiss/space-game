@@ -13,7 +13,7 @@ CargoShip::CargoShip() : Ship() {
   this->set_type("CargoShip");
 }
 
-// constructor
+// constructor, with use of the ship constructor for efficiency
 CargoShip::CargoShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size)
 : Ship(HealthPoints, Damage, inventory, inventoryCount, name, location, size){
   this->set_type("CargoShip");
