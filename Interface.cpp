@@ -15,10 +15,13 @@ void Interface::responseReset(int* playerResponse, int min, int max)  {
     cout << "Invalid input, please try again.\n";
   }
 }
+//constructor
 Interface::Interface() {
   this->map = nullptr;
   this->player = nullptr;
 }
+
+//the beginning of game interface
 void Interface::startGame() {
   // start main menu loop
   bool running = true;
@@ -91,6 +94,8 @@ void Interface::startGame() {
     }
   }
 }
+
+//the interface that will be displayed throughout the game
 void Interface::gameLoop() {
   bool active = true;
   while (active) {

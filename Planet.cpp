@@ -6,6 +6,7 @@
 #include <random>
 #include "ItemSet.h"
 
+//default constructor, using the SpaceObject constructor for efficiency
 Planet::Planet() : SpaceObject() {
   population = 0;
   prices = nullptr;
@@ -13,6 +14,7 @@ Planet::Planet() : SpaceObject() {
   this->set_type("Planet");
 }
 
+// constructor
 Planet::Planet(int population, int* prices, std::string economyStatus, int* location, std::string name, int size) : SpaceObject(location, name, size) {
   ItemSet items;
   this->set_type("Planet");
@@ -24,10 +26,12 @@ Planet::Planet(int population, int* prices, std::string economyStatus, int* loca
   this->economyStatus = economyStatus;
 }
 
+//desctructor
 Planet::~Planet() {
   delete[] prices; // Free the prices array
 }
 
+//the scanInfo function, where the information of the Planet is printed to the console for the user
 void Planet::scanInfo() {
   std::cout << "Planet: " << get_name() << " at location (" << get_location()[0] << "," << get_location()[1] << ")" << std::endl;
   std::cout << "Size: " << get_size() << std::endl;
@@ -35,6 +39,7 @@ void Planet::scanInfo() {
   std::cout << "Economy Status: " << get_economyStatus() << std::endl;
 }
 
+//the interact function with the input as the address of the player
 bool Planet::interact(Player& p1) {
   bool done = false;
   while (!done) {
@@ -166,6 +171,7 @@ bool Planet::sell(Player& p1) {
   }
 }
 
+//setters and getters
 void Planet::set_population(int population) {
   this->population = population;
 }
@@ -190,6 +196,7 @@ std::string Planet::get_economyStatus() {
   return economyStatus;
 }
 
+//randomisation
 void Planet::randomise() {
   ItemSet items;
   // name generator
