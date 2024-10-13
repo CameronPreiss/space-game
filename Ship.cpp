@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include <random>
+#include "Player.h"
 
 //default constructor
 Ship::Ship() : SpaceObject(){
@@ -26,8 +27,8 @@ Ship::Ship(int HealthPoints, int Damage, int* inventory, int inventoryCount, std
 }
 
 // the attack function, taking in the address of the enemy ship object and running the ReceiveDamage function with a specific damage
-void Ship::AttackShip(Ship& Enemy, int Damage){
-  Enemy.ReceiveDamage(Damage);
+void Ship::AttackShip(Player& p1, int Damage){
+  p1.set_health(p1.get_health() - Damage);
 }
 
 //reducing the ships health by (damageTaken)

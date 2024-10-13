@@ -11,6 +11,12 @@ public:
   //the interact function which here has no use (is a child function of Ship)
   void interact() {}
 
+  //the menu and interface that allows the user to interact with a cargoShip
+  void interact(Player& p1);
+
+  //displaying the information of the cargoship
+  void scanInfo() const override;
+
   //default constructor and normal constructor 
   CargoShip();
   CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
@@ -24,7 +30,7 @@ public:
   //the attack ship function takes the enemy ship as an input, along with the damage that it will deal
   //the receive damage function takes an integer input of the damage that it will be dealt
   //both take no output
-  void AttackShip(Ship& Enemy, int Damage) override;
+  void AttackShip(Player& p1, int Damage) override;
   void ReceiveDamage(int damageTaken) override;
 
   //the isDestroyed function, determining whether the ship is destroyed and should be removed from the map
@@ -32,8 +38,8 @@ public:
   bool isDestroyed() override;
 
   //setters and getters
-  int get_health() override;
-  int get_damage() override;
+  int get_health() const;
+  int get_damage() const;
 
   void set_health(int health) override;
   void set_damage(int damage) override;

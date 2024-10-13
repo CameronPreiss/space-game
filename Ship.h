@@ -1,8 +1,9 @@
-#include <iostream>
-#include "SpaceObject.h"
-
 #ifndef SHIP_H
 #define SHIP_H
+
+#include <iostream>
+#include "SpaceObject.h"
+class Player;
 
 //abstract class, inherits from spaceObject, and will be inherited by combatShip and cargoShip
 class Ship : public SpaceObject {
@@ -21,7 +22,7 @@ public:
   //the attack ship function takes the inputs of the enemy ship and the damage it will deal
   //the receive damage function will take the input of the damage dealt to the combat ship
   //both take no output
-  virtual void AttackShip(Ship& Enemy, int Damage);
+  virtual void AttackShip(Player& p1, int Damage);
   virtual void ReceiveDamage(int damageTaken);
 
   //the isDestroyed function serves to determine whether the ship has no health left and whether it should be removed from the map

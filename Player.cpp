@@ -3,6 +3,7 @@
 //default constructor
 Player::Player() {
   this->name = "";
+  this->health = 100;
   this->money = 0;
   this->location[0] = 0;
   this->location[1] = 0;
@@ -16,10 +17,11 @@ Player::Player() {
 }
 
 //constructor
-Player::Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius) {
+Player::Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius, int health) {
   this->location[0] = location[0];
   this->location[1] = location[1];
   this->money = money;
+  this->health = health;
   this->resources = resources;
   this->resourcesArraySize = resourcesArraySize;
   this->speed = speed;
@@ -33,6 +35,7 @@ Player::Player(std::string name) {
   this->location[1] = 0;
   this->speed = 5;
   this->scanRadius = 5;
+  this->health = 100;
 }
 
 //adding money to the player
@@ -72,6 +75,12 @@ int Player::get_resourcesArraySize() {
 }
 std::string Player::get_name() {
   return this->name;
+}
+int Player::get_health(){
+  return health;
+}
+void Player::set_health(int health){
+  this->health = health;
 }
 
 //the player is moving coordinates from one position to another position, taking an array of size 2, and lets the values in that array equal the new coordinates of the ship
