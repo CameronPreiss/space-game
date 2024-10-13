@@ -19,7 +19,7 @@ CargoShip::CargoShip(int HealthPoints, int Damage, int* inventory, int inventory
   this->set_type("CargoShip");
 }
 
-//function for attacking the enemy ship, causing the enemy ship to reduce its health points by (damage).
+// the attack function, taking in the address of the enemy ship object and running the ReceiveDamage function with a specific damage
 void CargoShip::AttackShip(Ship& Enemy, int Damage){
   Enemy.ReceiveDamage(Damage);
 }
