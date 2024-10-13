@@ -2,34 +2,41 @@
 #include <string>
 #include <random>
 
+// The cargo ship, when it uses its shield attribute, receives the damage from the attack lowering its health, then regains that health, blocking the attack.
 void CargoShip::shield(int Damage){
   ReceiveDamage(Damage);
   set_health(HealthPoints + Damage);
 }
 
+// ensuring the cargo ship is of type ship
 CargoShip::CargoShip() : Ship() {
   this->set_type("CargoShip");
 }
+
+// constructor
 CargoShip::CargoShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size)
 : Ship(HealthPoints, Damage, inventory, inventoryCount, name, location, size){
   this->set_type("CargoShip");
 }
 
+//function for attacking the enemy ship, causing the enemy ship to reduce its health points by (damage).
 void CargoShip::AttackShip(Ship& Enemy, int Damage){
   Enemy.ReceiveDamage(Damage);
 }
 
+//the receive damage function reduces the cargo ships health by (damageTaken)
 void CargoShip::ReceiveDamage(int damageTaken){
   set_health(get_health()-damageTaken);
 }
 
+// if the ships health is less than or equal to zero, isDestroyed is set to true
 bool CargoShip::isDestroyed(){
   if (HealthPoints <= 0){
     return true;
   }
   return false;
 }
-
+ //setters and getters
 int CargoShip::get_health(){
   return HealthPoints;
 }
@@ -44,6 +51,7 @@ void CargoShip::set_damage(int Damage){
   this->Damage = Damage;
 }
 
+//randomise function
 void CargoShip::randomise() {
   this->generateName();
   // std::set up random number generator
