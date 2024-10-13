@@ -11,11 +11,13 @@ public:
   //the interact function which here has no use (is a child function of Ship)
   void interact() {}
 
-  //default constructor and normal constructor
+  //default constructor and normal constructor 
   CargoShip();
   CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
 
   //the cargo ship's speical attack/defense function, allowing it to take no damage from the player's attack for one round
+  //its input is the damage that it is dealt
+  //takes no ouput
   void shield(int Damage);
 
   //The attack and receive damage function, which serve to reduce the health of either the enemy ship, or the cargo ship
