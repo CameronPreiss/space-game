@@ -21,10 +21,14 @@ public:
   void shield(int Damage);
 
   //The attack and receive damage function, which serve to reduce the health of either the enemy ship, or the cargo ship
+  //the attack ship function takes the enemy ship as an input, along with the damage that it will deal
+  //the receive damage function takes an integer input of the damage that it will be dealt
+  //both take no output
   void AttackShip(Ship& Enemy, int Damage) override;
   void ReceiveDamage(int damageTaken) override;
 
   //the isDestroyed function, determining whether the ship is destroyed and should be removed from the map
+  // this function takes a boolean output, with no inputs
   bool isDestroyed() override;
 
   //setters and getters
@@ -35,6 +39,7 @@ public:
   void set_damage(int damage) override;
 
   //randomise function, which serves to create multiple CargoShip's once the game starts
+  //taking no inputs or outputs
   void randomise() override;
 };
 
