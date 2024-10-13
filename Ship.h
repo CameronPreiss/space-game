@@ -24,6 +24,9 @@ public:
   virtual void AttackShip(Player& p1, int Damage);
   virtual void ReceiveDamage(int damageTaken);
 
+  //special move (shield for cargo, double attack for combat)
+  virtual void SpecialMove() {};
+
   //the isDestroyed function serves to determine whether the ship has no health left and whether it should be removed from the map
   //the isDestroyed function takes no inputs, but does return a boolean
   virtual bool isDestroyed();

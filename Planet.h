@@ -22,12 +22,9 @@ public:
   //the scanInfo function which displays the information of the Planet to the console, for the user to get an idea of what the planet is like
   void scanInfo() override;
 
-  //overriding the interact function from spaceObject
-  bool interact(Player& p1) override;
-
   //altering the interact function from spaceObject, this function, once called, allows the user to buy or sell resources from/with this planet
   //this function takes the player's address as an input
-  void interact(Player& p1);
+  bool interact(Player& p1) override;
 
   //the buy function allows the user to buy resources from the planet, thus increasing the user's resources and decreasing their money
   //this function takes the player's address as an input

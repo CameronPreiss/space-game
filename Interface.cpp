@@ -113,6 +113,9 @@ void Interface::gameLoop() {
       case 0:
         active = false;
         break;
+      case 1:
+        this->map->movePlayer();
+        break;
       case 2: 
         this->map->scan();
         break;

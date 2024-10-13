@@ -98,7 +98,8 @@ bool Planet::buy(Player& p1) {
     // cancel buying
     return false;
   } else {
-    int price = this->prices[playerResponse - 1];
+    int index = playerResponse - 1;
+    int price = this->prices[index];
     // getting quantity
     std::cout << "Enter purchase quantity: ";
     int playerResponse = -1;
@@ -114,6 +115,9 @@ bool Planet::buy(Player& p1) {
     }
     // attempting to purchase item
     if (p1.removeMoney(playerResponse * price)) {
+      for (int i = 0; i < playerResponse; i++) {
+        p1.addResource(index);
+      }
       std::cout << "Transaction successful, new balance: $" << p1.get_money() << std::endl;
       return true;
     } else {
@@ -163,6 +167,7 @@ bool Planet::sell(Player& p1) {
   }
   // attempting to sell items
   if (p1.removeResource(priceIndex, playerResponse)) {
+    p1.addMoney(price * playerResponse);
     std::cout << "Transaction successful, new balance: $" << p1.get_money() << std::endl;
     return true;
   } else {

@@ -68,13 +68,41 @@ int Map::get_numObjects() {
 Player* Map::get_player() {
   return this->player;
 }
-bool Map::movePlayer(int direction[2]) {
-  int tempLocation[2] = {this->player->get_location()[0] + direction[0] * this->player->get_speed(), this->player->get_location()[1] + direction[1] * this->player->get_speed()};
-  if (abs(tempLocation[0]) < this->mapSize && abs(tempLocation[1]) < this->mapSize) {
-    this->player->move(tempLocation);
-    return true;
+void Map::movePlayer() { 
+  // prompting player to choose a direction
+  std::cout << "Current location: (" << this->player->get_location()[0] << "," << this->player->get_location()[1] << ")\n";
+  std::vector<std::array<int,2>> locations;
+  int offsets[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
+  char directions[4] = {'N','S','E','W'};
+  for (int i = 0; i < 4; i++) {
+    std::array<int,2> newLocation;
+    // getting valid locations to move to
+    newLocation[0] = this->player->get_location()[0] + offsets[i][0] * this->player->get_speed();
+    newLocation[1] = this->player->get_location()[1] + offsets[i][1] * this->player->get_speed();
+    if (newLocation[0] > -this->mapSize && newLocation[0] < mapSize && newLocation[1] > -this->mapSize && newLocation[1] < this->mapSize) {
+      locations.push_back(newLocation);
+      std::cout << "[" << locations.size() << "] " << directions[i] << "(" << newLocation[0] << "," << newLocation[1] << ")\n"; 
+    } 
+  }
+  int playerResponse = -1;
+  // validating input
+  while (playerResponse == -1) {
+    std::cin >> playerResponse;
+    if (playerResponse < 0 || playerResponse > locations.size() || std::cin.fail()) {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      playerResponse = -1;
+      std::cout << "Invalid input, please try again.\n";
+    }
+  }
+  // attempt to move player to new location
+  if (playerResponse == 0) {
+    return;
   } else {
-    return false;
+    int moveLocation[2];
+    moveLocation[0] = locations[playerResponse-1][0];
+    moveLocation[1] = locations[playerResponse-1][1];
+    this->player->move(moveLocation);
   }
 }
 void Map::scan() {
@@ -202,6 +230,7 @@ void Map::loadFromFile(int index) {
   int* resources;
   int speed;
   int scanRadius;
+  int damage;
   inFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
   getline(inFile, name);
   inFile >> playerPos[0] >> playerPos[1];
@@ -212,7 +241,8 @@ void Map::loadFromFile(int index) {
   }
   inFile >> speed;
   inFile >> scanRadius;
-  this->player = new Player(name, playerPos, money, resources, speed, scanRadius);
+  inFile >> damage;
+  this->player = new Player(name, playerPos, money, resources, speed, scanRadius, damage);
   this->spaceObjects = new SpaceObject*[this->numObjects];
   for (int i = 0; i < this->numObjects; i++) {
     std::string type;
@@ -290,6 +320,7 @@ void Map::saveToFile() {
   }
   outFile << this->player->get_speed() << std::endl;
   outFile << this->player->get_scanRadius() << std::endl;
+  outFile << this->player->get_damage() << std::endl;
   for (int i = 0; i < this->numObjects; i++) {
     outFile << this->spaceObjects[i]->get_type() << std::endl;
     outFile << this->spaceObjects[i]->get_location()[0] << std::endl;

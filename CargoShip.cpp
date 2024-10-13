@@ -4,46 +4,45 @@
 #include "ItemSet.h"
 #include "Player.h"
 
-void CargoShip::scanInfo() const {
+void CargoShip::scanInfo() {
   std::cout << "\nHealth Points: " << get_health() << " Damage: " << get_damage() << std::endl;
 }
 
 //when the player wants to interact with an enemy ship
-void CargoShip::interact(Player& p1){
-  std::cout << "You are now engaged in a battle with a Cargo Ship! " << std::endl;
-  std::cout << "Good luck " << std::endl;
-  std::string choice;
-  do{   
-    std::cout << "\nYour health: " << p1.get_health() << " Your opponents health: " << get_health() << std::endl;
-    std::cout << "Do you want to fight? If so press f, if not press q" << std::endl;
-    std::cin >> choice;
+// bool CargoShip::interact(Player& p1){
+//   std::cout << "You are now engaged in a battle with a Cargo Ship! " << std::endl;
+//   std::cout << "Good luck " << std::endl;
+//   std::string choice;
+//   do{   
+//     std::cout << "\nYour health: " << p1.get_health() << " Your opponents health: " << get_health() << std::endl;
+//     std::cout << "Do you want to fight? If so press f, if not press q" << std::endl;
+//     std::cin >> choice;
+//
+//     //if the user presses f
+//     if (choice == "f"){
+//       //attack process
+//       AttackShip(p1, 10);
+//       ReceiveDamage(20);
+//       if (isDestroyed() == true){
+//         //if the enemy ship is destroyed, rewarding the user
+//         std::cout << "Congrats, you defeated the ship, enjoy your rewards " << std::endl;
+//         p1.addMoney(100);
+//         std::cout << "Your money: " << p1.get_money() << std::endl;
+//         choice = "q";
+//       }
+//     }
+//
+//     //if the user does not enter a valid input, letting them know and retry
+//     if (choice != "f" && choice != "q"){
+//       std::cout << "Not a valid input" << std::endl;
+//     }
+//   } while (choice != "q");
+//   return false;
+// }
 
-    //if the user presses f
-    if (choice == "f"){
-      //attack process
-      AttackShip(p1, 10);
-      ReceiveDamage(20);
-      if (isDestroyed() == true){
-        //if the enemy ship is destroyed, rewarding the user
-        std::cout << "Congrats, you defeated the ship, enjoy your rewards " << std::endl;
-        p1.addMoney(100);
-        std::cout << "Your money: " << p1.get_money() << std::endl;
-        choice = "q";
-      }
-    }
-
-    //if the user does not enter a valid input, letting them know and retry
-    if (choice != "f" && choice != "q"){
-      std::cout << "Not a valid input" << std::endl;
-    }
-  } while (choice != "q");
-
-}
-
-// The cargo ship, when it uses its shield attribute, receives the damage from the attack lowering its health, then regains that health, blocking the attack.
-void CargoShip::shield(int Damage){
-  ReceiveDamage(Damage);
-  set_health(HealthPoints + Damage);
+// The cargo ship, when it uses its shield attribute, extra health from their shield
+void CargoShip::SpecialMove(){
+  this->set_health(this->get_health() + 10);
 }
 
 // ensuring the cargo ship is of type ship

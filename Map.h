@@ -14,7 +14,7 @@ public:
   int get_mapSize();
   int get_numObjects();
   Player* get_player();
-  bool movePlayer(int direction[2]);
+  void movePlayer();
   void scan();
   void loadFromFile(int index);
   void saveToFile();

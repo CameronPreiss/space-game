@@ -15,22 +15,25 @@ Player::Player() {
   for (int i = 0; i < items.get_numItems(); i++) {
     this->resources[i] = 0;
   }
+  this->damage = 20;
 }
 
 //constructor
-Player::Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius) {
+Player::Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius, int damage) {
   this->location[0] = location[0];
   this->location[1] = location[1];
   this->money = money;
-  this->health = health;
   this->resources = resources;
   this->speed = speed;
   this->scanRadius = scanRadius;
   this->name = name;
+  this->damage = 20;
 }
 Player::Player(std::string name) {
   ItemSet items;
   this->name = name;
+  this->damage = 20;
+  this->health = 100;
   this->money = 0;
   this->location[0] = 0;
   this->location[1] = 0;
@@ -83,6 +86,12 @@ int Player::get_health(){
 void Player::set_health(int health){
   this->health = health;
 }
+int Player::get_damage() {
+  return this->damage;
+}
+void Player::set_damage(int damage) {
+  this->damage = damage;
+}
 
 //the player is moving coordinates from one position to another position, taking an array of size 2, and lets the values in that array equal the new coordinates of the ship
 void Player::move(int coords[2]) {
@@ -103,6 +112,7 @@ bool Player::addResource(int index) {
 
 //removing a resource from the player's inventory
 bool Player::removeResource(int index, int amount) {
+  ItemSet items;
   if (index >= 0 && index < items.get_numItems() && amount <= this->resources[index]) { //if the index is greater than 0, and less than the size of the array, and less than the number of units the player has
     this->resources[index]-= amount; //decreasing the number of that resource by an amount******
     return true;

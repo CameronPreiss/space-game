@@ -12,10 +12,10 @@ public:
   void interact() {}
 
   //the menu and interface that allows the user to interact with a cargoShip
-  void interact(Player& p1);
+  // bool interact(Player& p1) override;
 
   //displaying the information of the cargoship
-  void scanInfo() const override;
+  void scanInfo() override;
 
   //default constructor and normal constructor 
   CargoShip();
@@ -24,7 +24,7 @@ public:
   //the cargo ship's speical attack/defense function, allowing it to take no damage from the player's attack for one round
   //its input is the damage that it is dealt
   //takes no ouput
-  void shield(int Damage);
+  void SpecialMove() override;
 
   //The attack and receive damage function, which serve to reduce the health of either the enemy ship, or the cargo ship
   //the attack ship function takes the enemy ship as an input, along with the damage that it will deal

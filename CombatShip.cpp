@@ -4,25 +4,30 @@
 #include "ItemSet.h"
 
 // the combatShip's special attack function, where it attacks the enemy ship twice.
-void CombatShip::doubleAttack(Ship& Enemy, int Damage){
-  AttackShip(Enemy,Damage);
-  AttackShip(Enemy,Damage);
+void CombatShip::SpecialMove(){
+  this->doubleAttack = true;
 }
 
 //constructor using the ship constructor for efficiency
 CombatShip::CombatShip(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size)
 : Ship(HealthPoints, Damage, inventory, name, location, size){
   this->set_type("CombatShip");
+  this->doubleAttack = false;
 }
 
 //default constructor
 CombatShip::CombatShip() : Ship(){
   this->set_type("CombatShip");
+  this->doubleAttack = false;
 }
 
 // the attack function, taking in the address of the enemy ship object and running the ReceiveDamage function with a specific damage
 void CombatShip::AttackShip(Ship& Enemy, int Damage){
   Enemy.ReceiveDamage(Damage);
+  if (this->doubleAttack == true) {
+    Enemy.ReceiveDamage(Damage);
+    this->doubleAttack = false;
+  }
 }
 
 // reducing the ship's health by (damageTaken)

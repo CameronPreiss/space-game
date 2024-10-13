@@ -10,7 +10,7 @@ class Player {
 public:
   //default constructor, normal constructors
   Player();
-  Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius);
+  Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius, int damage);
   Player(std::string name);
 
   //add money function, takes the money that shall be added to the player, no output
@@ -28,6 +28,8 @@ public:
   std::string get_name();
   int get_health();
   void set_health(int health);
+  int get_damage();
+  void set_damage(int damage);
 
   //player move function, which changes the location of the player to different coordinates, takes an input of the integer array that the player moves to
   //no output
@@ -54,6 +56,7 @@ private:
   int speed;
   int scanRadius;
   int health;
+  int damage;
 };
 
 #endif // !PLAYER_H

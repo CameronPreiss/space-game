@@ -86,8 +86,80 @@ void Ship::generateName() {
 }
 
 bool Ship::interact(Player& p1) {
-  std::cout << "testMode\n";
-  return false;
+  // displaying ship information
+  std::cout << this->get_type() << " " << this->get_name() << " at location (" << this->get_location()[0] << "," << this->get_location()[1] << ")\n";
+  std::cout << "Size: " << this->get_size() << std::endl;
+  std::cout << "Damage: " << this->get_damage() << std::endl;
+  std::cout << "Health: " << this->get_health() << std::endl;
+  std::cout << "Your health: " << p1.get_health() << std::endl;
+  std::cout << "Your damage: " << p1.get_damage() << std::endl;
+  // prompting user if they want to fight
+  std::cout << "[0] Back\n";
+  std::cout << "[1] Fight\n";
+  // validating user input
+  int playerResponse = -1;
+  while (playerResponse == -1) {
+    std::cin >> playerResponse;
+    if (playerResponse < 0 || playerResponse > 1 || std::cin.fail()) {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      playerResponse = -1;
+      std::cout << "Invalid input, please try again.\n";
+    }
+  }
+  if (playerResponse == 0) {
+    return false;
+  }
+  // creating copy of the health and damage
+  int playerHealth = p1.get_health();
+  int shipHealth = this->get_health();
+  int playerDamage = p1.get_damage();
+  int shipDamage = this->get_damage();
+  // repeatedly make ships fight each other
+  ItemSet items;
+  while (true) {
+    if (playerHealth < 1) {
+      std::cout << "You died in combat! You have lost all your money and items\n";
+      p1.removeMoney(p1.get_money()-1);
+      for (int i = 0; i < items.get_numItems(); i++) {
+        p1.removeResource(i, p1.get_resources()[i]);
+      }
+      return true;
+    } else if (shipHealth < 1) {
+      // reward player on ship defeat
+      std::cout << "Congratulations! You have bested " << this->get_name() << " in combat\n";
+      // calculate bounty based on ship type
+      int bounty = (this->get_type() == "CargoShip") ? 100 : 200;
+      std::cout << "Money gained: " << bounty << std::endl;
+      std::cout << "You also gained any items they had\n";
+      p1.addMoney(bounty);
+      // adding ship inventory to player
+      for (int i = 0; i < items.get_numItems(); i++) {
+        p1.addResource(this->get_inventory()[i]);
+      }
+      return true;
+    }
+    shipHealth -= playerDamage;
+    playerHealth -= shipDamage;
+    std::cout << "Your health: " << playerHealth << std::endl;
+    std::cout << "Enemy health: " << shipHealth << std::endl;
+    std::cout << "[0] Retreat\n";
+    std::cout << "[1] Continue\n";
+    int playerResponse = -1;
+    while (playerResponse == -1) {
+      std::cin >> playerResponse;
+      if (playerResponse < 0 || playerResponse > 1 || std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        playerResponse = -1;
+        std::cout << "Invalid input, please try again.\n";
+      }
+    }
+    if (playerResponse == 0) {
+      return true;
+    }
+  }
+  return true;
 }
 
 Ship::~Ship() {
