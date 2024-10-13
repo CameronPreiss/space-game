@@ -1,7 +1,9 @@
 #include "Player.h"
+#include "ItemSet.h"
 
 //default constructor
 Player::Player() {
+  ItemSet items;
   this->name = "";
   this->health = 100;
   this->money = 0;
@@ -9,33 +11,35 @@ Player::Player() {
   this->location[1] = 0;
   this->speed = 5;
   this->scanRadius = 5;
-  this->resourcesArraySize = 10;
-  this->resources = new int[10];
-  for (int i = 0; i < 10; i++) {
+  this->resources = new int[items.get_numItems()];
+  for (int i = 0; i < items.get_numItems(); i++) {
     this->resources[i] = 0;
   }
 }
 
 //constructor
-Player::Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius, int health) {
+Player::Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius) {
   this->location[0] = location[0];
   this->location[1] = location[1];
   this->money = money;
   this->health = health;
   this->resources = resources;
-  this->resourcesArraySize = resourcesArraySize;
   this->speed = speed;
   this->scanRadius = scanRadius;
   this->name = name;
 }
 Player::Player(std::string name) {
+  ItemSet items;
   this->name = name;
   this->money = 0;
   this->location[0] = 0;
   this->location[1] = 0;
   this->speed = 5;
-  this->scanRadius = 5;
-  this->health = 100;
+  this->scanRadius = 10;
+  this->resources = new int[items.get_numItems()];
+  for (int i = 0; i < items.get_numItems(); i++) {
+    this->resources[i] = 0;
+  }
 }
 
 //adding money to the player
@@ -70,9 +74,6 @@ int Player::get_scanRadius() {
 int* Player::get_resources() {
   return this->resources;
 }
-int Player::get_resourcesArraySize() {
-  return this->resourcesArraySize;
-}
 std::string Player::get_name() {
   return this->name;
 }
@@ -91,7 +92,8 @@ void Player::move(int coords[2]) {
 
 //adding a resource to the player's inventory
 bool Player::addResource(int index) {
-  if (index >= 0 && index < this->resourcesArraySize) { //if the index is greater than 0, and less than the size of the array
+  ItemSet items;
+  if (index >= 0 && index < items.get_numItems()) { //if the index is greater than 0, and less than the size of the array
     this->resources[index]++; //increasing the number of that resource
     return true;
   } else {
@@ -101,16 +103,24 @@ bool Player::addResource(int index) {
 
 //removing a resource from the player's inventory
 bool Player::removeResource(int index, int amount) {
-  if (index >= 0 && index < this->resourcesArraySize && amount <= this->resources[index]) { //if the index is greater than 0, and less than the size of the array, and less than the number of units the player has
-    this->resources[index]--; //decreasing the number of that resource by an amount******
+  if (index >= 0 && index < items.get_numItems() && amount <= this->resources[index]) { //if the index is greater than 0, and less than the size of the array, and less than the number of units the player has
+    this->resources[index]-= amount; //decreasing the number of that resource by an amount******
     return true;
   } else {
     return false;
   }
 }
 
+void Player::listInventory() {
+  ItemSet items;
+  for (int i = 0; i < items.get_numItems(); i++) {
+    std::cout << items.get_itemName(i);
+    std::cout << ": " << this->resources[i] << ", ";
+  }
+  std::cout << "\b\b  \n";
+}
+
 //destructor
 Player::~Player() {
-
   delete[] this->resources;
 }

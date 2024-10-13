@@ -19,7 +19,7 @@ public:
 
   //default constructor and normal constructor 
   CargoShip();
-  CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
+  CargoShip(int HealthPoints, int Damage, int* newInventory, std::string name, int* location, int size);
 
   //the cargo ship's speical attack/defense function, allowing it to take no damage from the player's attack for one round
   //its input is the damage that it is dealt

@@ -10,7 +10,7 @@ class Player {
 public:
   //default constructor, normal constructors
   Player();
-  Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius, int health);
+  Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius);
   Player(std::string name);
 
   //add money function, takes the money that shall be added to the player, no output
@@ -25,7 +25,6 @@ public:
   int* get_location();
   int get_scanRadius();
   int* get_resources();
-  int get_resourcesArraySize();
   std::string get_name();
   int get_health();
   void set_health(int health);
@@ -42,6 +41,8 @@ public:
   //boolean output whether it was successful
   bool removeResource(int index, int amount);
 
+  void listInventory();
+
   //destructor
   ~Player();
 private:
@@ -49,7 +50,6 @@ private:
   std::string name;
   int location[2];
   int money;
-  int resourcesArraySize;
   int* resources;
   int speed;
   int scanRadius;

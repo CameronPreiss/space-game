@@ -10,7 +10,7 @@ public:
 
   //default constructor and normal constructor
   CombatShip();
-  CombatShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size);
+  CombatShip(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size);
 
   //the combat ship's special attack/defense function, allowing it to attack the enemy ship twice
   //takes the inputs of the enemy ship (that it will deal damage to), and the damage it will deal

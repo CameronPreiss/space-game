@@ -11,12 +11,11 @@ protected:
   //attributes of each ship
   int HealthPoints;
   int Damage;
-  int inventoryCount;
   int* inventory;
 public:
   //default constructor and normal constructor
   Ship();
-  Ship(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
+  Ship(int HealthPoints, int Damage, int* newInventory, std::string name, int* location, int size);
 
   //the attack and receive damage functions which serve to reduce the enemy ships health or the combat ship's health during battle
   //the attack ship function takes the inputs of the enemy ship and the damage it will deal
@@ -36,15 +35,13 @@ public:
   virtual void set_health(int health);
   virtual void set_damage(int damage);
 
-  virtual int get_inventoryCount();
-
   virtual int* get_inventory();
 
   //adding an item to the ship's inventory taking an input of what the index of the item that will be added is
   virtual void addItem(int index);
-
+  
   //the interact function (child function of spaceObject)
-  void interact() const {};
+  bool interact(Player& p1);
 
   //randomise function, which takes further use in the combatShip and cargoShip classes
   virtual void randomise() {};
