@@ -1,6 +1,7 @@
 #include "CargoShip.h"
 #include <string>
 #include <random>
+#include "ItemSet.h"
 
 void CargoShip::shield(int Damage){
   ReceiveDamage(Damage);
@@ -10,8 +11,8 @@ void CargoShip::shield(int Damage){
 CargoShip::CargoShip() : Ship() {
   this->set_type("CargoShip");
 }
-CargoShip::CargoShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size)
-: Ship(HealthPoints, Damage, inventory, inventoryCount, name, location, size){
+CargoShip::CargoShip(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size)
+: Ship(HealthPoints, Damage, inventory, name, location, size){
   this->set_type("CargoShip");
 }
 
@@ -45,12 +46,13 @@ void CargoShip::set_damage(int Damage){
 }
 
 void CargoShip::randomise() {
+  ItemSet items;
   this->generateName();
   // std::set up random number generator
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> distribItemCount(20, 40); // for number of items
-  std::uniform_int_distribution<> distribItem(0,this->get_inventoryCount()-1); // for items
+  std::uniform_int_distribution<> distribItem(0,items.get_numItems()-1); // for items
   std::uniform_int_distribution<> distribHealth(30, 50); // for health
   std::uniform_int_distribution<> distribDamage(2,5); // for damage
   std::uniform_int_distribution<> distribSize(75,150); // for size

@@ -8,11 +8,10 @@ class Ship : public SpaceObject {
 protected:
   int HealthPoints;
   int Damage;
-  int inventoryCount;
   int* inventory;
 public:
   Ship();
-  Ship(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
+  Ship(int HealthPoints, int Damage, int* newInventory, std::string name, int* location, int size);
 
   virtual void AttackShip(Ship& Enemy, int Damage);
   virtual void ReceiveDamage(int damageTaken);
@@ -24,12 +23,10 @@ public:
   virtual void set_health(int health);
   virtual void set_damage(int damage);
 
-  virtual int get_inventoryCount();
-
   virtual int* get_inventory();
   virtual void addItem(int index);
 
-  void interact() const {};
+  bool interact(Player& p1);
 
   virtual void randomise() {};
   void generateName();

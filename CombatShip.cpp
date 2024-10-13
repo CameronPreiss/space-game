@@ -1,14 +1,15 @@
 #include "CombatShip.h"
 #include <string>
 #include <random>
+#include "ItemSet.h"
 
 void CombatShip::doubleAttack(Ship& Enemy, int Damage){
   AttackShip(Enemy,Damage);
   AttackShip(Enemy,Damage);
 }
 
-CombatShip::CombatShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size)
-: Ship(HealthPoints, Damage, inventory, inventoryCount, name, location, size){
+CombatShip::CombatShip(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size)
+: Ship(HealthPoints, Damage, inventory, name, location, size){
   this->set_type("CombatShip");
 }
 CombatShip::CombatShip() : Ship(){
@@ -45,13 +46,14 @@ void CombatShip::set_damage(int Damage){
 }
 
 void CombatShip::randomise() {
+  ItemSet items;
   // generate name
   this->generateName();
   // set up random number generator
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> distribItemCount(10, 20); // for number of items
-  std::uniform_int_distribution<> distribItem(0,this->get_inventoryCount()); // for items
+  std::uniform_int_distribution<> distribItem(0,items.get_numItems()-1);// for items
   std::uniform_int_distribution<> distribHealth(20, 40); // for health
   std::uniform_int_distribution<> distribDamage(5,10); // for damage
   std::uniform_int_distribution<> distribSize(50,100); // for size

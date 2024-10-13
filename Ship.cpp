@@ -1,10 +1,10 @@
 #include "Ship.h"
 #include <random>
+#include "ItemSet.h"
 
 Ship::Ship() : SpaceObject(){
   this->HealthPoints = 0;
   this->Damage = 0;
-  this->inventoryCount = 10;
   int* inventory = new int[10];
   for (int i = 0; i < 10; i++){
     inventory[i] = 0;
@@ -12,11 +12,12 @@ Ship::Ship() : SpaceObject(){
   this->inventory = inventory;
 }
 
-Ship::Ship(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size) : SpaceObject(location, name, size){
+Ship::Ship(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size) : SpaceObject(location, name, size){
+  ItemSet items;
   this->HealthPoints = HealthPoints;
   this->Damage = Damage;
   this->inventory = new int[10];
-  for (int i = 0; i < inventoryCount; i++){
+  for (int i = 0; i < items.get_numItems(); i++){
     this->inventory[i] = inventory[i];
   }
 }
@@ -51,10 +52,6 @@ void Ship::set_damage(int Damage){
   this->Damage = Damage;
 }
 
-int Ship::get_inventoryCount() {
-  return this->inventoryCount;
-}
-
 int* Ship::get_inventory() {
   return this->inventory;
 }
@@ -76,6 +73,11 @@ void Ship::generateName() {
   int suffix = distribSuffix(gen);
   std::string name = prefixes[prefix] + "-" + fixes[fix] + "-" + suffixes[suffix];
   this->set_name(name);
+}
+
+bool Ship::interact(Player& p1) {
+  std::cout << "testMode\n";
+  return false;
 }
 
 Ship::~Ship() {

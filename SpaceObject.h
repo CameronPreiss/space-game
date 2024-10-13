@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+class Player;
+
 class SpaceObject{
 private:
   std::string type;
@@ -13,19 +15,18 @@ private:
 public:
   SpaceObject();
   SpaceObject(int* location, std::string name, int size);
-  virtual void scanInfo() const;
-  virtual void interact() const {};
+  virtual void scanInfo();
+  virtual bool interact(Player& p1) { return false; };
   void set_size(int size);
-  int get_size() const;
+  int get_size();
   void set_location(int* location);
-  const int* get_location() const;
+  int* get_location();
   void set_name(std::string name);
-  std::string get_name() const;
-  std::string get_type() const;
+  std::string get_name();
+  std::string get_type();
   void set_type(std::string type);
   virtual int get_health() = 0;
   virtual int get_damage() = 0;
-  virtual int get_inventoryCount() = 0;
   virtual int* get_inventory() { return nullptr; }
   virtual void randomise() {};
   virtual int get_population() { return 0; };

@@ -15,7 +15,7 @@ public:
   int get_numObjects();
   Player* get_player();
   bool movePlayer(int direction[2]);
-  std::vector<SpaceObject*> scan();
+  void scan();
   void loadFromFile(int index);
   void saveToFile();
   void randomise();

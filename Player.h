@@ -8,7 +8,7 @@
 class Player {
 public:
   Player();
-  Player(std::string name, int location[2], int money, int resourcesArraySize, int* resources, int speed, int scanRadius);
+  Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius);
   Player(std::string name);
   void addMoney(int money);
   bool removeMoney(int money);
@@ -17,17 +17,16 @@ public:
   int* get_location();
   int get_scanRadius();
   int* get_resources();
-  int get_resourcesArraySize();
   std::string get_name();
   void move(int coords[2]);
   bool addResource(int index);
   bool removeResource(int index, int amount);
+  void listInventory();
   ~Player();
 private:
   std::string name;
   int location[2];
   int money;
-  int resourcesArraySize;
   int* resources;
   int speed;
   int scanRadius;

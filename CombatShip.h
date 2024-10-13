@@ -8,7 +8,7 @@ class CombatShip : public Ship{
 
 public:
   CombatShip();
-  CombatShip(int HealthPoints, int Damage, int* inventory, int inventoryCount, std::string name, int* location, int size);
+  CombatShip(int HealthPoints, int Damage, int* inventory, std::string name, int* location, int size);
   void doubleAttack(Ship& Enemy, int Damage);
 
   void AttackShip(Ship& Enemy, int Damage) override;

@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "CargoShip.h"
 #include "CombatShip.h"
+#include "ItemSet.h"
 #include "Planet.h"
 
 #include <cstdlib>
@@ -15,7 +16,8 @@
 namespace fs = std::filesystem;
 using namespace std;
 
-int numItems = 10;
+ItemSet items;
+int numItems = items.get_numItems();
 
 Map::Map() {
   this->numObjects = 0;
@@ -75,16 +77,115 @@ bool Map::movePlayer(int direction[2]) {
     return false;
   }
 }
-std::vector<SpaceObject*> Map::scan() {
+void Map::scan() {
+  // creating a vector of nearby objects
   std::vector<SpaceObject*> nearby;
+  int size = this->player->get_scanRadius();
+  int displaySize = 2 * size + 1;
+  bool done = false;
   for (int i = 0; i < this->numObjects; i++) {
-    if (abs(this->player->get_location()[0] - this->spaceObjects[i]->get_location()[0]) <= this->player->get_scanRadius() && abs(this->player->get_location()[1] - this->spaceObjects[i]->get_location()[1]) <= this->player->get_scanRadius()) {
+    // checking if each object on the map is within the players scan radius
+    if (abs(this->player->get_location()[0] - this->spaceObjects[i]->get_location()[0]) <= size && abs(this->player->get_location()[1] - this->spaceObjects[i]->get_location()[1]) <= size) {
+      // adding it to the vector if it is
       nearby.push_back(this->spaceObjects[i]);
     }
   }
-  return nearby;
+  // displaying the objects
+  // creating array of ascii spaces
+  char** displayAscii = new char*[displaySize];
+  for (int i = 0; i < displaySize; i++) {
+    displayAscii[i] = new char[displaySize];
+  }
+  for (int i = 0; i < displaySize; i++) {
+    for (int j = 0; j < displaySize; j++) {
+      displayAscii[i][j] = ' ';
+    }
+  }
+  // setting player
+  displayAscii[size][size] = '<';
+  // determining each nearby objects coordinate on the display
+  for (SpaceObject* object : nearby) {
+    int x = object->get_location()[0] - this->player->get_location()[0] + size;
+    int y = object->get_location()[1] - this->player->get_location()[1] + size;
+    if (object->get_type() == "Planet") {
+      displayAscii[x][y] = '(';
+    } else {
+      displayAscii[x][y] = '*';
+
+    }
+  }
+  // displaying ascii display with a border
+  for (int i = 0; i < displaySize; i++) {
+    std::cout << "|";
+    if (i == 0) {
+      for (int j = 0; j < 2*displaySize; j++) {
+        std::cout << "-";
+      }
+      std::cout << "|\n|";
+    }
+    for (int j = 0; j < displaySize; j++) {
+      if (displayAscii[i][j] == '<') {
+        std::cout << displayAscii[i][j] << '>';
+      } else if (displayAscii[i][j] == '(') {
+        std::cout << displayAscii[i][j] << ')';
+      } else {
+        std::cout << displayAscii[i][j] << displayAscii[i][j];
+      }
+    }
+    if (i == displaySize-1) {
+      std::cout << "|\n|";
+      for (int j = 0; j < 2*displaySize; j++) {
+        std::cout << "-";
+      }
+    }
+    std::cout << "|\n";
+  }
+  // legend
+  cout << "<> (player), ** (ship), () (planet)\n";
+  cout << "[0] Back\n";
+  cout << "[1] Interact with object\n";
+  // getting player response for if they would like to interact with an object
+  int playerResponse = -1;
+  while (playerResponse == -1) {
+    cin >> playerResponse;
+    if (playerResponse < 0 || playerResponse > 1 || cin.fail()) {
+      playerResponse = -1;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      cout << "Invalid input, please try again\n";
+    }
+  }
+  if (playerResponse == 0) {
+    return;
+  } else {
+    while (!done) {
+      cout << "[0] Back\n";
+      // listing available objects to interact with
+      for (int i = 0; i < nearby.size(); i++) {
+        cout << "[" << i+1 << "] " << nearby[i]->get_type() << " " << nearby[i]->get_name() << " at (" << nearby[i]->get_location()[0] << "," << nearby[i]->get_location()[1] << ")\n";
+      }
+      // getting player response for which object to interact with
+      int playerResponse = -1;
+      while (playerResponse == -1) {
+        cin >> playerResponse;
+        if (playerResponse < 0 || playerResponse > nearby.size() + 1 || cin.fail()) {
+          playerResponse = -1;
+          cin.clear();
+          cin.ignore(numeric_limits<streamsize>::max(), '\n');
+          cout << "Invalid input, please try again\n";
+        }
+      }
+      if (playerResponse == 0){
+        break;
+      } else {
+        // interacting with selected object
+        done = nearby[playerResponse-1]->interact(*this->player);
+      }
+    }
+  }
 }
 void Map::loadFromFile(int index) {
+  ItemSet items;
   std::string filename = "./savefiles/savefile";
   filename += std::to_string(index);
   filename += ".txt";
@@ -99,20 +200,19 @@ void Map::loadFromFile(int index) {
   int playerPos[2];
   int money;
   int* resources;
-  int resourcesArraySize;
   int speed;
   int scanRadius;
-  inFile >> name;
+  inFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Clear the input buffer
+  getline(inFile, name);
   inFile >> playerPos[0] >> playerPos[1];
   inFile >> money;
-  inFile >> resourcesArraySize;
-  resources = new int[resourcesArraySize];
-  for (int i = 0; i < resourcesArraySize; i++) {
+  resources = new int[numItems];
+  for (int i = 0; i < numItems; i++) {
     inFile >> resources[i];
   }
   inFile >> speed;
   inFile >> scanRadius;
-  this->player = new Player(name, playerPos, money, resourcesArraySize, resources, speed, scanRadius);
+  this->player = new Player(name, playerPos, money, resources, speed, scanRadius);
   this->spaceObjects = new SpaceObject*[this->numObjects];
   for (int i = 0; i < this->numObjects; i++) {
     std::string type;
@@ -132,7 +232,7 @@ void Map::loadFromFile(int index) {
       for (int j = 0; j < numItems; j++) {
         inFile >> inventory[j];
       }
-      this->spaceObjects[i] = new CargoShip(healthPoints, damage, inventory, numItems, name, location, size);
+      this->spaceObjects[i] = new CargoShip(healthPoints, damage, inventory, name, location, size);
     }
     if (type == "CombatShip") {
       int healthPoints;
@@ -143,7 +243,7 @@ void Map::loadFromFile(int index) {
       for (int j = 0; j < numItems; j++) {
         inFile >> inventory[j];
       }
-      this->spaceObjects[i] = new CombatShip(healthPoints, damage, inventory, numItems, name, location, size);
+      this->spaceObjects[i] = new CombatShip(healthPoints, damage, inventory, name, location, size);
     }
     if (type == "Planet") {
       int population;
@@ -155,13 +255,14 @@ void Map::loadFromFile(int index) {
         inFile >> prices[j];
       }
       inFile >> economyStatus;
-      this->spaceObjects[i] = new Planet(population, prices, numItems, economyStatus, location, name, size);
+      this->spaceObjects[i] = new Planet(population, prices, economyStatus, location, name, size);
     }
   }
   inFile.close();
   this->saveIndex = index;
 }
 void Map::saveToFile() {
+  ItemSet items;
   if (this->saveIndex == -1) {
     int numSaves = 0;
     for (const auto& entry : fs::directory_iterator("./savefiles")) {
@@ -184,8 +285,7 @@ void Map::saveToFile() {
   outFile << this->player->get_name() << std::endl;
   outFile << this->player->get_location()[0] << std::endl << this->player->get_location()[1] << std::endl;
   outFile << this->player->get_money() << std::endl;
-  outFile << this->player->get_resourcesArraySize() << std::endl;
-  for (int i = 0; i < this->player->get_resourcesArraySize(); i++) {
+  for (int i = 0; i < numItems; i++) {
     outFile << this->player->get_resources()[i] << std::endl;
   }
   outFile << this->player->get_speed() << std::endl;
@@ -216,7 +316,7 @@ void Map::randomise() {
   delete[] this->spaceObjects;
   this->spaceObjects = nullptr;
   this->numObjects = 0;
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < 50; i++) {
     // set up random number generator
     std::random_device rd;
     std::mt19937 gen(rd());

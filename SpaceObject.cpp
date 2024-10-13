@@ -17,15 +17,15 @@ SpaceObject::SpaceObject(int* location, std::string name, int size) {
   this->size = size;
 }
 
-void SpaceObject::scanInfo() const{
+void SpaceObject::scanInfo() {
   std::cout << "SpaceObject: " << name << "At location" << location[0] << "," << location[1] << "Size: " << size << std::endl;
 }
 void SpaceObject::set_size(int size){
   this->size = size;
 }
 
-int SpaceObject::get_size() const{
-  return size;
+int SpaceObject::get_size() {
+  return this->size;
 }
 
 void SpaceObject::set_location(int* location){
@@ -33,7 +33,7 @@ void SpaceObject::set_location(int* location){
   this->location[1] = location[1];
 }
 
-const int* SpaceObject::get_location() const{
+int* SpaceObject::get_location() {
   return location;
 }
 
@@ -41,11 +41,11 @@ void SpaceObject::set_name(std::string name){
   this->name = name;
 }
 
-std::string SpaceObject::get_name() const{
+std::string SpaceObject::get_name() {
   return name;
 }
 
-std::string SpaceObject::get_type() const{
+std::string SpaceObject::get_type() {
   return this->type;
 }
 

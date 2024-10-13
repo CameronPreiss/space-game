@@ -8,10 +8,8 @@ class CargoShip : public Ship{
 
 public:
 
-  void interact() {}
-
   CargoShip();
-  CargoShip(int HealthPoints, int Damage, int* newInventory, int inventoryCount, std::string name, int* location, int size);
+  CargoShip(int HealthPoints, int Damage, int* newInventory, std::string name, int* location, int size);
   void shield(int Damage);
 
   void AttackShip(Ship& Enemy, int Damage) override;
