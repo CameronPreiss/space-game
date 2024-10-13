@@ -81,11 +81,13 @@ void Planet::buy(Player& p1) {
   //error messages, in the event that the user does not enter an integer
   int testIndex;
   std::cin >> testIndex;
-  while(std::cin.fail()){
-    std::cout << "Error, not an integer, enter a new integer: ";
-    std::cin.clear();
+
+  //this input validation loop will repeat as long as the user does not enter a valid integer
+  while(std::cin.fail()){     //if the input is not an integer
+    std::cout << "Error, not an integer, enter a new integer: ";     //prompted to enter a new integer
+    std::cin.clear();      //user input is cleared
     std::cin.ignore(256, '\n');
-    std::cin >> testIndex;
+    std::cin >> testIndex;   //new variable is set to the 'new integer' that the user enters
     std::cout << std::endl;
   }
   int resourceIndex = testIndex;
