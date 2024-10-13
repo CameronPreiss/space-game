@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-//purely abstract spaceObject function, planet and ships are inherited from this class
+//purely abstract spaceObject class, planet and ships are inherited from this class
 class SpaceObject{
 private:
   //attributes
