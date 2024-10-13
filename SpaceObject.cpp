@@ -19,7 +19,7 @@ SpaceObject::SpaceObject(int* location, std::string name, int size) {
   this->size = size;
 }
 
-//scanInfo function
+//scanInfo function 
 void SpaceObject::scanInfo() const{
   std::cout << "SpaceObject: " << name << "At location" << location[0] << "," << location[1] << "Size: " << size << std::endl; //displays the attributes of the spaceObject
 }
