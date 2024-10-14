@@ -47,7 +47,7 @@ private:
     int tempCoords[2] = {2,3};
     player.move(tempCoords);
     if (player.get_location()[0] == 2 && player.get_location()[1] == 3) {
-      std::cout << "Move test passed :)\n";
+      std::cout << "Move test passed ✔\n";
     } else {
       std::cout << "Move test failed :(\n";
     }
@@ -56,7 +56,7 @@ private:
     Player player;
     player.addResource(0);
     if (player.get_resources()[0] == 1) {
-      std::cout << "AddItem test passed :)\n";
+      std::cout << "AddItem test passed ✔\n";
     } else {
       std::cout << "AddItem test failed :(\n";
     }
@@ -66,7 +66,7 @@ private:
     player.addResource(0);
     player.removeResource(0, 1);
     if (player.get_resources()[0] == 0) {
-      std::cout << "RemoveItem test passed :)\n";
+      std::cout << "RemoveItem test passed ✔\n";
     } else {
       std::cout << "RemoveItem test failed :(\n";
     }
@@ -74,7 +74,7 @@ private:
   void testRemoveItemEmpty() {
     Player player;
     if (player.removeResource(0, 1) == false) {
-      std::cout << "RemoveItemEmpty test passed :)\n";
+      std::cout << "RemoveItemEmpty test passed ✔\n";
     } else {
       std::cout << "RemoveItemEmpty test failed :(\n";
     }

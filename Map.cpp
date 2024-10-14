@@ -90,7 +90,7 @@ void Map::movePlayer() {
   std::cout << "Current location: (" << this->player->get_location()[0] << "," << this->player->get_location()[1] << ")\n";
   std::vector<std::array<int,2>> locations;
   int offsets[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
-  char directions[4] = {'N','S','E','W'};
+  char directions[4] = {'N','E','S','W'};
   for (int i = 0; i < 4; i++) {
     std::array<int,2> newLocation;
     // getting valid locations to move to
@@ -213,7 +213,7 @@ void Map::scan() {
       int playerResponse = -1;
       while (playerResponse == -1) {
         cin >> playerResponse;
-        if (playerResponse < 0 || playerResponse > (int) nearby.size() + 1 || cin.fail()) {
+        if (playerResponse < 0 || playerResponse > (int) nearby.size() || cin.fail()) {
           playerResponse = -1;
           cin.clear();
           cin.ignore(numeric_limits<streamsize>::max(), '\n');

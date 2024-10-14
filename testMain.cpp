@@ -6,15 +6,15 @@
 
 int main() {
   MapTests mapTests;
-  std::cout << "Map tests:\n";
+  std::cout << "- Map tests:\n";
   mapTests.runTests();
   PlayerTests playerTests;
-  std::cout << "Player tests:\n";
+  std::cout << "- Player tests:\n";
   playerTests.runTests();
   CargoTest cargoTests;
-  std::cout << "CargoShip tests:\n";
+  std::cout << "- CargoShip tests:\n";
   cargoTests.runTest();
-  std::cout << "CombatShip tests:\n";
+  std::cout << "- CombatShip tests:\n";
   CombatTest combatTests;
   combatTests.runTest();
 

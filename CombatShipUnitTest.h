@@ -29,9 +29,9 @@ private:
 
     a1.AttackShip(p1,5);
     if(p1.get_health() == 90){
-      std::cout << "double attack test passed" << std::endl;
+      std::cout << "double attack test passed ✔" << std::endl;
     } else {
-      std::cout << "double attack test failed" << std::endl; 
+      std::cout << "double attack test failed✖" << std::endl; 
     }
   }
 
@@ -43,15 +43,15 @@ private:
     Player p2 = Player("Luke");
     a1.AttackShip(p1,5);
     if(p1.get_health() == 95){
-      std::cout << "attack damage test passed" << std::endl;
+      std::cout << "attack damage test passed ✔" << std::endl;
     } else {
-      std:: cout << "attack damage test failed" << std::endl; 
+      std:: cout << "attack damage test failed✖" << std::endl; 
     }
     a1.AttackShip(p2,100);
     if(p2.get_health() == 0){
-      std::cout << "attack kill test passed" << std::endl;
+      std::cout << "attack kill test passed ✔" << std::endl;
     } else {
-      std:: cout << "attack kill test failed" << std::endl; 
+      std:: cout << "attack kill test failed✖" << std::endl; 
     }
   }
 
@@ -63,16 +63,16 @@ private:
 
     a1.ReceiveDamage(100);
     if (a1.get_health() == 0){
-      std::cout << "recieved damage kill test passed" << std::endl;
+      std::cout << "recieved damage kill test passed ✔" << std::endl;
     } else {
-      std:: cout << "recieved damage kill test failed" << std::endl; 
+      std:: cout << "recieved damage kill test failed✖" << std::endl; 
     }
 
     a2.ReceiveDamage(90);
     if (a2.get_health() == 10){
-      std::cout << "recieved damage kill test passed" << std::endl;
+      std::cout << "recieved damage kill test passed ✔" << std::endl;
     } else {
-      std:: cout << "recieved damage kill test failed" << std::endl; 
+      std:: cout << "recieved damage kill test failed✖" << std::endl; 
     }
   }
 
@@ -84,34 +84,34 @@ private:
 
     a1.ReceiveDamage(5);
     if(a1.isDestroyed() == false){
-      std::cout << "ship not destryed, isDestroyed test passed" << std::endl;
+      std::cout << "ship not destryed, isDestroyed test passed ✔" << std::endl;
     } else {
-      std:: cout << "ship not destryed, isDestroyed test failed" << std::endl; 
+      std:: cout << "ship not destryed, isDestroyed test failed✖" << std::endl; 
     }
     a2.ReceiveDamage(5);
     if(a2.isDestroyed() == true){
-      std::cout << "ship destryed, isDestroyed test passed" << std::endl;
+      std::cout << "ship destryed, isDestroyed test passed ✔" << std::endl;
     } else {
-      std::cout << "ship destryed, isDestroyed test passed" << std::endl; 
+      std::cout << "ship destryed, isDestroyed test passed ✔" << std::endl; 
     }        
   }
   void testRandomise(){
     CombatShip a1 = CombatShip();
     a1.randomise();
     if(a1.get_damage() < 5 || a1.get_damage() > 10){
-      std::cout << "randomise damage test failed." << std::endl;
+      std::cout << "randomise damage test failed✖" << std::endl;
     } else {
-      std::cout << "randomise damage test passed" << std::endl;
+      std::cout << "randomise damage test passed ✔" << std::endl;
     }
     if(a1.get_health() < 20 || a1.get_health() > 40){
-      std::cout << "randomise health test failed." << std::endl;
+      std::cout << "randomise health test failed✖" << std::endl;
     } else {
-      std::cout << "randomise health test passed" << std::endl;
+      std::cout << "randomise health test passed ✔" << std::endl;
     }
     if(a1.get_size() < 50 || a1.get_size() > 100){
-      std::cout << "randomise size test failed." << std::endl;
+      std::cout << "randomise size test failed✖" << std::endl;
     } else {
-      std::cout << "randomise size test passed" << std::endl;
+      std::cout << "randomise size test passed ✔" << std::endl;
     }
     
     ItemSet itemset;
@@ -123,9 +123,9 @@ private:
       }
     }
     if (testFailed == true){
-      std::cout << "randomise item test failed." << std::endl;
+      std::cout << "randomise item test failed✖" << std::endl;
     } else {
-      std::cout << "randomise item test passed." << std::endl;
+      std::cout << "randomise item test passed ✔" << std::endl;
     }
   }
 };
