@@ -37,9 +37,7 @@ private:
 
   void testAttackShip(){
     int combatInventory[4] = {1,2,3,4};
-    int playerInventory[4] = {1,2,3,4};
     int combatLocation[2] = {2,5};
-    int playerLocation[2] = {2,5};
     CombatShip a1 = CombatShip(100,5,combatInventory,"Jaiden", combatLocation,5);
     Player p1 = Player("Cameron");
     Player p2 = Player("Luke");
@@ -131,4 +129,5 @@ private:
     }
   }
 };
+
 #endif

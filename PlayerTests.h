@@ -73,7 +73,7 @@ private:
   }
   void testRemoveItemEmpty() {
     Player player;
-    if (player.removeResource(0, 0) == false) {
+    if (player.removeResource(0, 1) == false) {
       std::cout << "RemoveItemEmpty test passed :)\n";
     } else {
       std::cout << "RemoveItemEmpty test failed :(\n";

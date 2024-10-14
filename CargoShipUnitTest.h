@@ -1,5 +1,5 @@
-#ifndef COMBATTEST_H
-#define COMBATTEST_H
+#ifndef CARGOTEST_H
+#define CARGOTEST_H
 
 #include "SpaceObject.h"
 #include "Ship.h"
@@ -9,6 +9,7 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 
 class CargoTest {
 public:
@@ -34,20 +35,26 @@ private:
   }
 
   void testAttackShip(){
+    // setting up buffers to redirect cout stream
+    std::streambuf* orig_buf = std::cout.rdbuf();
+    std::ostringstream null_stream;
+
     int cargoInventory[4] = {1,2,3,4};
-    int playerInventory[4] = {1,2,3,4};
     int cargoLocation[2] = {2,5};
-    int playerLocation[2] = {2,5};
     CargoShip a1 = CargoShip(100,5,cargoInventory,"Jaiden", cargoLocation,5);
     Player p1 = Player("Cameron");
     Player p2 = Player("Luke");
+    std::cout.rdbuf(null_stream.rdbuf());
     a1.AttackShip(p1,5);
+    std::cout.rdbuf(orig_buf);
     if(p1.get_health() == 95){
       std::cout << "attack damage test passed" << std::endl;
     } else {
       std:: cout << "attack damage test failed" << std::endl; 
     }
+    std::cout.rdbuf(null_stream.rdbuf());
     a1.AttackShip(p2,100);
+    std::cout.rdbuf(orig_buf);
     if(p2.get_health() == 0){
       std::cout << "attack kill test passed" << std::endl;
     } else {
@@ -56,19 +63,28 @@ private:
   }
 
   void testReceiveDamage(){
+    // setting up buffers to redirect cout stream
+    std::streambuf* orig_buf = std::cout.rdbuf();
+    std::ostringstream null_stream;
+
     int cargoInventory[4] = {1,2,3,4};
     int cargoLocation[2] = {2,5};
     CargoShip a1 = CargoShip(100,5,cargoInventory, "Jaiden", cargoLocation,5);
     CargoShip a2 = CargoShip(100,5,cargoInventory, "Cameron", cargoLocation,5);
 
+    std::cout.rdbuf(null_stream.rdbuf());
     a1.ReceiveDamage(100);
+    std::cout.rdbuf(orig_buf);
+
     if (a1.get_health() == 0){
       std::cout << "recieved damage kill test passed" << std::endl;
     } else {
       std:: cout << "recieved damage kill test failed" << std::endl; 
     }
 
+    std::cout.rdbuf(null_stream.rdbuf());
     a2.ReceiveDamage(90);
+    std::cout.rdbuf(orig_buf);
     if (a2.get_health() == 10){
       std::cout << "recieved damage kill test passed" << std::endl;
     } else {
@@ -77,18 +93,29 @@ private:
   }
 
   void testIsDestryoed(){
+    // setting up buffers to redirect cout stream
+    std::streambuf* orig_buf = std::cout.rdbuf();
+    std::ostringstream null_stream;
+
     int cargoInventory[4] = {1,2,3,4};
     int cargoLocation[2] = {2,5};
     CargoShip a1 = CargoShip(100,5,cargoInventory, "Jaiden", cargoLocation,5);
     CargoShip a2 = CargoShip(5,5,cargoInventory, "Luke", cargoLocation,5);
 
+    std::cout.rdbuf(null_stream.rdbuf());
     a1.ReceiveDamage(5);
+    std::cout.rdbuf(orig_buf);
+
     if(a1.isDestroyed() == false){
       std::cout << "ship not destryed, isDestroyed test passed" << std::endl;
     } else {
       std:: cout << "ship not destryed, isDestroyed test failed" << std::endl; 
     }
+
+    std::cout.rdbuf(null_stream.rdbuf());
     a2.ReceiveDamage(5);
+    std::cout.rdbuf(orig_buf);
+
     if(a2.isDestroyed() == true){
       std::cout << "ship destryed, isDestroyed test passed" << std::endl;
     } else {

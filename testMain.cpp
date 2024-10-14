@@ -1,6 +1,7 @@
 #include "MapTests.h"
 #include "PlayerTests.h"
 #include "CargoShipUnitTest.h"
+#include "CombatShipUnitTest.h"
 #include <iostream>
 
 int main() {
@@ -13,7 +14,9 @@ int main() {
   CargoTest cargoTests;
   std::cout << "CargoShip tests:\n";
   cargoTests.runTest();
-
+  std::cout << "CombatShip tests:\n";
+  CombatTest combatTests;
+  combatTests.runTest();
 
   return 0;
 }
