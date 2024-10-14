@@ -1,0 +1,84 @@
+Classes Changed:
+•	SpaceObject
+  o	Attributes Added:
+    	Std::string type (determining what type of space object, i.e. planet, combatship, cargoship)
+    	Int size (displaying size of the given spaceObject)
+  o	Functions Added
+    	Virtual void scanInfo(); (showing the information of the spaceObject)
+    	Virtual bool interact(Player& p1); (user interface for interacting with the spaceObject, this calls the functions of the given spaceObject depending on user input) (returns false here as spaceObject is just an abstract class)
+    	Virtual void randomise(); (no use in spaceObject, but is included all its children classes have to inherit it)
+
+•	Planet
+  o	Attributes Added:
+    	Int population; (simply information when scanning) 
+    	Int* prices; (an array of the buying prices for all the resources from the planet)
+    	Std::string economyStatus; (simply information when scanning)
+  o	Functions Added:
+    	Void scanInfo() override; (displaying the information of the planet)
+    	Bool interact(Player& p1) override; (interface for interacting with the planet, calls the buy and sell functions based on user input)
+    	Bool buy(Player& p1); (allows the user to buy resources from the planet for money)
+    	Bool sell(Player& p1); (allows the user to sell resources to the planet in exchange for money)
+    	Void randomise() override; (constructs a planet object with different variables, used in the map to create multiple planets within the map)
+
+•	Ship
+  o	Attributes Added:
+    	None
+  o	Functions Added:
+    	Virtual bool isDestroyed(); (determines whether the ship’s healthpoints is less than zero)
+    	Virtual void addItem(int index); (adds an item to the player’s inventory)
+    	Bool interact(Player& p1); (interface for player to attack and receive damage from enemy ships)
+    	Virtual void randomise(); (constructs many random ship’s around the map once the game is created)
+
+•	CombatShip
+  o	Attributes Added:
+    	Bool doubleAttack; (determines whether the specialMove (double attack) is active)
+  o	Functions Added:
+    	Bool isDestroyed() override; (same as in ship)
+    	Void randomise() override; (same as in ship)
+
+•	CargoShip
+  o	Attributes Added:
+    	None
+  o	Functions Added:
+    	Bool isDestroyed() override; (same as in ship)
+    	Void randomise() override; (same as in ship)
+
+•	Map
+  o	Attributes Added:
+    	Void addObject(SpaceObject* object); (adds a spaceObject to the map)
+    	Bool destroyObject(int index); (removes a spaceObject from the map)
+    	Void movePlayer(); (prompts the player to choose a direction, and moves the player across the map by 5 units north, east, south or west))
+    	Void scan(); (runs all the scanInfo functions from the spaceObjects to show the user what interactable spaceObjects are nearby, and then they can choose which one they want to interact with)
+    	Void loadFromFile(int index); (loads a previous save from a file)
+    	Void saveToFile(); (saves the current save to a file)
+    	Void randomise(); (creates many random spaceObjects around the map, calling their randomise functions to make their functions)
+  o	Functions Added:
+    	Int mapSize; (determines the size of the map)
+    	Int numObjects: (determines the number of spaceObjects in the map)
+    	SpaceObject** spaceObjects; (the array of spaceObjects in the map)
+    	Player* player; (creates the player)
+    	Int saveIndex; (the number of the save that is being loaded)
+
+
+Classes Added:
+•	Interface
+  o	Attributes:
+    	Std::vector<Map*> saves; (the number of saves)
+    	Map* map; (for creating the maps)
+    	Player* player; (for creating the players)
+  o	Functions:
+    	Void startGame(); (the interface that shows when the user either wants to load an old save or begin a new save and begin the game)
+    	Void gameLoop(); (the loop that repeats while the game is running)
+    	Void responseReset(int* playerResponse, int min, int max); (serves to reset the user’s responses if they have not entered a valid input).
+    	Void loadSaves(); (loads a previous save)
+
+•	ItemSet
+  o	Attributes:
+    	Int numItems; (the number of resources that the user can have (10))
+    	Std::vector(std::string> itemNames; (the names of all the resources, i.e. coal, iron, etc.)
+  o	Functions:
+    	None except for getters and constructors
+
+Our final project was rather different to our project plan. 
+However, it did not stray from our initial concept, but all the extra functions, attributes, and classes were simply to enhance the user experience and the quality of our game. 
+We added functions such as loading and saving from a file, enhanced combat, better selling and buying with planets and finally a map that creates randomised ships and planets around the map.  
