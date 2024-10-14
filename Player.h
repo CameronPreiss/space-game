@@ -30,6 +30,15 @@ public:
   void set_health(int health);
   int get_damage();
   void set_damage(int damage);
+  void set_speed(int speed);
+  void set_scanRadius(int radius);
+
+  //purchase upgrades function, allows the user to upgrade various stats on their ship
+  //no output
+  void purchaseUpgrades();
+
+  //repair ship function to return ship to full health at a cost
+  void repairShip();
 
   //player move function, which changes the location of the player to different coordinates, takes an input of the integer array that the player moves to
   //no output

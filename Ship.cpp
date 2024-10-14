@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include <random>
+#include <string>
 #include "ItemSet.h"
 #include "Player.h"
 #include "Map.h"
@@ -112,22 +113,12 @@ bool Ship::interact(Map* map) {
   if (playerResponse == 0) {
     return false;
   }
-  // creating copy of the health and damage
-  int playerHealth = p1.get_health();
-  int shipHealth = this->get_health();
-  int playerDamage = p1.get_damage();
-  int shipDamage = this->get_damage();
   // repeatedly make ships fight each other
   ItemSet items;
+  bool specialAttack = false;
+  int fullHealth = this->HealthPoints;
   while (true) {
-    if (playerHealth < 1) {
-      std::cout << "You died in combat! You have lost all your money and items\n";
-      p1.removeMoney(p1.get_money()-1);
-      for (int i = 0; i < items.get_numItems(); i++) {
-        p1.removeResource(i, p1.get_resources()[i]);
-      }
-      return true;
-    } else if (shipHealth < 1) {
+    if (this->HealthPoints < 1) {
       // reward player on ship defeat
       std::cout << "Congratulations! You have bested " << this->get_name() << " in combat\n";
       // calculate bounty based on ship type
@@ -142,11 +133,29 @@ bool Ship::interact(Map* map) {
       // remove ship from map
       map->destroyObject(this);
       return true;
+    } else if (p1.get_health() < 1) {
+      std::cout << "You died in combat! You have lost all your money and items\n";
+      p1.removeMoney(p1.get_money()-1);
+      for (int i = 0; i < items.get_numItems(); i++) {
+        p1.removeResource(i, p1.get_resources()[i]);
+      }
+      return true;
     }
-    shipHealth -= playerDamage;
-    playerHealth -= shipDamage;
-    std::cout << "Your health: " << playerHealth << std::endl;
-    std::cout << "Enemy health: " << shipHealth << std::endl;
+    // if ship below 40% health, trigger special attack
+    if (this->HealthPoints < 0.4 * fullHealth && !specialAttack) {
+      this->SpecialMove();
+    }
+    // roll ship damage
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, 3); 
+    int damageRoll = distrib(gen);    
+    // make ships attack each other
+    this->AttackShip(p1, this->Damage * damageRoll);
+    this->ReceiveDamage(p1.get_damage());
+    // update player 
+    std::cout << "Your health: " << p1.get_health() << std::endl;
+    std::cout << "Enemy health: " << this->HealthPoints << std::endl;
     std::cout << "[0] Retreat\n";
     std::cout << "[1] Continue\n";
     int playerResponse = -1;

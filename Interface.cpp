@@ -104,14 +104,16 @@ void Interface::gameLoop() {
   bool active = true;
   while (active) {
     int playerResponse = -1;
-    while (playerResponse < 0 || playerResponse > 3) {
+    while (playerResponse == -1) {
       cout << "Player name: " << this->player->get_name() << ", Current location: (" << this->player->get_location()[0] << "," << this->player->get_location()[1] << "), Balance: $" << this->player->get_money() << endl;
       cout << "[0] Exit\n";
       cout << "[1] Move ship\n";
       cout << "[2] Scan for nearby objects\n";
       cout << "[3] View inventory\n";
+      cout << "[4] Purchase ship upgrades\n";
+      cout << "[5] Repair ship\n" ;
       cin >> playerResponse;
-      responseReset(&playerResponse, 0, 3);
+      responseReset(&playerResponse, 0, 5);
     }
     switch (playerResponse) {
       case 0:
@@ -126,8 +128,14 @@ void Interface::gameLoop() {
       case 3:
         this->player->listInventory();
         break;
+      case 4:
+        this->player->purchaseUpgrades();
+        break;
+      case 5:
+        this->player->repairShip();
+        break;
       default:
-        cout << "Invalid input\n";
+        cout << "Invalid input, please try again\n";
     }
   }
   this->map->saveToFile();

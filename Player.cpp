@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <iostream>
 #include "ItemSet.h"
 
 //default constructor
@@ -96,6 +97,106 @@ int Player::get_damage() {
 }
 void Player::set_damage(int damage) {
   this->damage = damage;
+}
+void Player::set_speed(int speed) {
+  this->speed = speed;
+}
+void Player::set_scanRadius(int radius) {
+  this->scanRadius = radius;
+}
+
+void Player::purchaseUpgrades() {
+  bool purchasing = true;
+  // prompting user which upgrade to purchase
+  while (purchasing) {
+    std::cout << "Balance: $" << this->get_money() << ", choose upgrade:\n";
+    std::cout << "[0] Back\n";
+    std::cout << "[1] Speed | $100\n";
+    std::cout << "[2] Damage | $500\n";
+    std::cout << "[3] Scan radius | $300\n";
+    // validating input
+    int playerResponse = -1;
+    while (playerResponse == -1) {
+      std::cin >> playerResponse;
+      if (playerResponse < 0 || playerResponse > 3 || std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        playerResponse = -1;
+        std::cout << "Invalid input, please try again.\n";
+      }
+    }
+    // attempting to remove money then updating player 
+    switch (playerResponse) {
+      case 0:
+        purchasing = false;
+        break;
+      case 1:
+        if (this->removeMoney(100)) {
+          this->set_speed(this->get_speed() + 5);
+          std::cout << "Transaction successful! Current speed: " << this->get_speed() << std::endl;
+        } else { 
+          std::cout << "Insufficient funds!\n";
+        }
+        break;
+      case 2:
+        if (this->removeMoney(500)) {
+          this->set_damage(this->get_damage() + 3);
+          std::cout << "Transaction successful! Current damage: " << this->get_damage() << std::endl;
+        } else {
+          std::cout << "Insufficient funds!\n";
+        }
+        break;
+      case 3:
+        if (this->removeMoney(300)) {
+          this->set_scanRadius(this->get_scanRadius() + 2);
+          std::cout << "Transaction successful! Current scan radius: " << this->get_scanRadius() << std::endl;
+        } else {
+          std::cout << "Insufficient funds!\n";
+        }
+        break;
+    }
+  }
+}
+
+void Player::repairShip() {
+  // cancelling repair if ship full health
+  if (this->get_health() == 100) {
+    std::cout << "Ship already full health!\n";
+    return;
+  }
+  std::cout << "Current health: " << this->get_health() << std::endl;
+  // calculating cost of repair
+  int cost = (100 -this->get_health()) * 10;
+  // getting user input for level of repair
+  std::cout << "[0] Back\n";
+  std::cout << "[1] Partial repair | $" << (int) (cost / 2) << std::endl;
+  std::cout << "[2] Full repair | $" << cost << std::endl;
+  // validating input
+  int playerResponse = -1;
+  while (playerResponse == -1) {
+    std::cin >> playerResponse;
+    if (playerResponse < 0 || playerResponse > 2 || std::cin.fail()) {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      playerResponse = -1;
+      std::cout << "Invalid input, please try again.\n";
+    }
+  }
+  if (playerResponse == 1) {
+    // attempting to remove cost from player money
+    if (this->removeMoney((int) (cost / 2))) {
+      // setting health to health plus half of difference between current health and full health (100)
+      this->set_health(this->get_health() + (0.5 * (100 - this->get_health())));
+      std::cout << "Ship partially repaired, current health: " << this->get_health() << std::endl;
+    }
+  } else if (playerResponse == 2) {
+    // attempting to remove cost from player money
+    if (this->removeMoney(cost)) {
+      // setting health to 100
+      this->set_health(100);
+      std::cout << "Ship fully repaired, current health: " << this->get_health() << std::endl;
+    }
+  }
 }
 
 //the player is moving coordinates from one position to another position, taking an array of size 2, and lets the values in that array equal the new coordinates of the ship

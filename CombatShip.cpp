@@ -10,6 +10,7 @@ void CombatShip::scanInfo() {
 // the combatShip's special attack function, where it attacks the enemy ship twice.
 void CombatShip::SpecialMove(){
   this->doubleAttack = true;
+  std::cout << this->get_name() << " used special move: double attack\n";
 }
 
 //constructor using the ship constructor for efficiency
