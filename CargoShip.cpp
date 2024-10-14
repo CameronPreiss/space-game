@@ -11,6 +11,7 @@ void CargoShip::scanInfo() {
 // The cargo ship, when it uses its shield attribute, extra health from their shield
 void CargoShip::SpecialMove(){
   this->set_health(this->get_health() + 10);
+  std::cout << this->get_name() << " used special move: shield\n";
 }
 
 // ensuring the cargo ship is of type ship
