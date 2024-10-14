@@ -43,6 +43,9 @@ public:
   //boolean output whether it was successful
   bool removeResource(int index, int amount);
 
+  //receive damage function for combat
+  void ReceiveDamage(int damageTaken);
+
   void listInventory();
 
   //destructor

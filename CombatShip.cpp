@@ -26,10 +26,10 @@ CombatShip::CombatShip() : Ship(){
 }
 
 // the attack function, taking in the address of the enemy ship object and running the ReceiveDamage function with a specific damage
-void CombatShip::AttackShip(Player& p1, int Damage){
-  p1.set_health(p1.get_health() - Damage);
-  if (get_doubleAttack() == true) {
-    p1.set_health(p1.get_health() - Damage);
+void CombatShip::AttackShip(Player& Enemy, int Damage){
+  Enemy.ReceiveDamage(Damage);
+  if (this->doubleAttack == true) {
+    Enemy.ReceiveDamage(Damage);
     this->doubleAttack = false;
   }
 }

@@ -1,6 +1,7 @@
 #include "Ship.h"
 #include "Player.h"
 #include <string>
+#include "Player.h"
 
 #ifndef COMBATSHIP_H
 #define COMBATSHIP_H
@@ -24,7 +25,7 @@ public:
   //the attack ship function takes the inputs of the enemy ship and the damage it will deal
   //the receive damage function will take the input of the damage dealt to the combat ship
   //both take no output
-  void AttackShip(Player& Enemy, int Damage);
+  void AttackShip(Player& Enemy, int Damage) override;
   void ReceiveDamage(int damageTaken) override;
 
   //the isDestroyed function serves to determine whether the ship has no health left and whether it should be removed from the map

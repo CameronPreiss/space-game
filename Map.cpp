@@ -4,6 +4,7 @@
 #include "ItemSet.h"
 #include "Planet.h"
 
+#include <cstddef>
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -19,6 +20,7 @@ using namespace std;
 ItemSet items;
 int numItems = items.get_numItems();
 
+//default constructor
 Map::Map() {
   this->numObjects = 0;
   this->mapSize = 50;
@@ -26,6 +28,8 @@ Map::Map() {
   this->player = new Player;
   this->saveIndex = -1;
 }
+
+//normal constructor
 Map::Map(std::string name) {
   this->numObjects = 0;
   this->mapSize = 50;
@@ -33,8 +37,12 @@ Map::Map(std::string name) {
   this->player = new Player(name);
   this->saveIndex = -1;
 }
+
+//addObject
 void Map::addObject(SpaceObject* object) {
+  //creates an array of pointers for the number of spaceObjects that will be placed
   SpaceObject** tempObjects = new SpaceObject*[this->numObjects+1];
+  //fills the array
   for (int i = 0; i < this->numObjects; i++) {
     tempObjects[i] = this->spaceObjects[i];
   }
@@ -42,9 +50,14 @@ void Map::addObject(SpaceObject* object) {
   this->spaceObjects = tempObjects;
   this->numObjects++;
 }
+
+//removes object from map
 bool Map::destroyObject(int index) {
+  //input validation, ensuring the index is valid
   if (index >= 0 && index < this->numObjects) {
+    //reducing the array's size by one
     SpaceObject** tempObjects = new SpaceObject*[this->numObjects-1];
+    //moving all the objects in the array to their correct positions
     for (int i = 0; i < index; i++) {
       tempObjects[i] = this->spaceObjects[i];
     }
@@ -59,6 +72,8 @@ bool Map::destroyObject(int index) {
     return false;
   }
 }
+
+//getters
 int Map::get_mapSize() {
   return this->mapSize;
 }
@@ -68,6 +83,8 @@ int Map::get_numObjects() {
 Player* Map::get_player() {
   return this->player;
 }
+
+//move player
 void Map::movePlayer() { 
   // prompting player to choose a direction
   std::cout << "Current location: (" << this->player->get_location()[0] << "," << this->player->get_location()[1] << ")\n";
@@ -88,7 +105,7 @@ void Map::movePlayer() {
   // validating input
   while (playerResponse == -1) {
     std::cin >> playerResponse;
-    if (playerResponse < 0 || playerResponse > locations.size() || std::cin.fail()) {
+    if (playerResponse < 0 || playerResponse > (int) locations.size() || std::cin.fail()) {
       std::cin.clear();
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       playerResponse = -1;
@@ -189,14 +206,14 @@ void Map::scan() {
     while (!done) {
       cout << "[0] Back\n";
       // listing available objects to interact with
-      for (int i = 0; i < nearby.size(); i++) {
+      for (size_t i = 0; i < nearby.size(); i++) {
         cout << "[" << i+1 << "] " << nearby[i]->get_type() << " " << nearby[i]->get_name() << " at (" << nearby[i]->get_location()[0] << "," << nearby[i]->get_location()[1] << ")\n";
       }
       // getting player response for which object to interact with
       int playerResponse = -1;
       while (playerResponse == -1) {
         cin >> playerResponse;
-        if (playerResponse < 0 || playerResponse > nearby.size() + 1 || cin.fail()) {
+        if (playerResponse < 0 || playerResponse > (int) nearby.size() + 1 || cin.fail()) {
           playerResponse = -1;
           cin.clear();
           cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -212,6 +229,8 @@ void Map::scan() {
     }
   }
 }
+
+//loads the map from a previous file
 void Map::loadFromFile(int index) {
   ItemSet items;
   std::string filename = "./savefiles/savefile";
@@ -291,6 +310,8 @@ void Map::loadFromFile(int index) {
   inFile.close();
   this->saveIndex = index;
 }
+
+//saves the current map to a file
 void Map::saveToFile() {
   ItemSet items;
   if (this->saveIndex == -1) {
@@ -343,6 +364,8 @@ void Map::saveToFile() {
   }
   outFile.close();
 }
+
+//creates random spaceObjects
 void Map::randomise() {
   delete[] this->spaceObjects;
   this->spaceObjects = nullptr;

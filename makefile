@@ -1,17 +1,22 @@
 CXX = g++
-CXXFLAGS = # -I./include -std=c++11 -Wall
+CXXFLAGS = -std=c++17 -Wall -Wextra -Werror
 
-# Source files and executable name
-SOURCES = main.cpp SpaceObject.cpp Planet.cpp Ship.cpp Player.cpp CombatShip.cpp CargoShip.cpp Map.cpp Ship.cpp Planet.cpp 
+# Source files, object files, and executable name
+SOURCES = main.cpp CargoShip.cpp CombatShip.cpp Interface.cpp Map.cpp Planet.cpp Player.cpp Ship.cpp SpaceObject.cpp ItemSet.cpp
+OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = spacegame
 
-# Default rule
-all: $(EXECUTABLE)
+# Default rule: build the executable from object files
+$(EXECUTABLE): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXECUTABLE)
 
-# Link the final executable
-$(EXECUTABLE): $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(EXECUTABLE)
+# Rule to compile source files into object files
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Clean up
+# Clean up object files and the executable
 clean:
-	rm -f $(EXECUTABLE)
+	rm -f $(OBJECTS) $(EXECUTABLE)
+
+# Phony targets
+.PHONY: clean

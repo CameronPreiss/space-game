@@ -43,14 +43,14 @@ bool CargoShip::isDestroyed(){
   return false;
 }
  //setters and getters
-int CargoShip::get_health() const{
+int CargoShip::get_health() {
   return HealthPoints;
 }
 void CargoShip::set_health(int HealthPoints){
   this->HealthPoints = HealthPoints;
 }
 
-int CargoShip::get_damage() const{
+int CargoShip::get_damage() {
   return Damage;
 }
 void CargoShip::set_damage(int Damage){
