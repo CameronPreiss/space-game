@@ -5,7 +5,7 @@
 #include <string>
 
 // dummy player class to avoid circular inclusion of header files
-class Player;
+class Map;
 
 //purely abstract spaceObject class, planet and ships are inherited from this class
 class SpaceObject{
@@ -24,7 +24,7 @@ public:
   virtual void scanInfo();
   
   //once the player scans for all the nearby planets and ships, they can choose to interact with one of these objects
-  virtual bool interact(Player&) { return false; };
+  virtual bool interact(Map*) { return false; };
 
   //setters and getters
   void set_size(int size);

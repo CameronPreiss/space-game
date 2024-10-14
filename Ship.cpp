@@ -2,6 +2,7 @@
 #include <random>
 #include "ItemSet.h"
 #include "Player.h"
+#include "Map.h"
 
 //default constructor
 Ship::Ship() : SpaceObject(){
@@ -85,7 +86,8 @@ void Ship::generateName() {
   this->set_name(name);
 }
 
-bool Ship::interact(Player& p1) {
+bool Ship::interact(Map* map) {
+  Player& p1 = *map->get_player();
   // displaying ship information
   std::cout << this->get_type() << " " << this->get_name() << " at location (" << this->get_location()[0] << "," << this->get_location()[1] << ")\n";
   std::cout << "Size: " << this->get_size() << std::endl;
@@ -137,6 +139,8 @@ bool Ship::interact(Player& p1) {
       for (int i = 0; i < items.get_numItems(); i++) {
         p1.addResource(this->get_inventory()[i]);
       }
+      // remove ship from map
+      map->destroyObject(this);
       return true;
     }
     shipHealth -= playerDamage;

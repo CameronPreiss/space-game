@@ -24,7 +24,7 @@ public:
 
   //altering the interact function from spaceObject, this function, once called, allows the user to buy or sell resources from/with this planet
   //this function takes the player's address as an input
-  bool interact(Player& p1) override;
+  bool interact(Map* map) override;
 
   //the buy function allows the user to buy resources from the planet, thus increasing the user's resources and decreasing their money
   //this function takes the player's address as an input

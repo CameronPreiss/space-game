@@ -14,9 +14,9 @@ public:
   //addObject, takes a pointer to SpaceObject and adds it to the map
   void addObject(SpaceObject* object);
 
-  //destroyObject, takes and integer for the index (in the spaceObjects array) that will be destroyed
+  //destroyObject, takes an input of the object (in the spaceObjects array) that will be destroyed
   //returns a boolean whether removing was successful or not
-  bool destroyObject(int index);
+  bool destroyObject(SpaceObject* object);
 
   //getters
   int get_mapSize();

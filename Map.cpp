@@ -52,9 +52,17 @@ void Map::addObject(SpaceObject* object) {
 }
 
 //removes object from map
-bool Map::destroyObject(int index) {
-  //input validation, ensuring the index is valid
-  if (index >= 0 && index < this->numObjects) {
+bool Map::destroyObject(SpaceObject* object) {
+  //input validation, ensuring the object is in the map
+  int index = 0;
+  bool inMap = false;
+  for (int i = 0; i < this->numObjects; i++) {
+    if (this->spaceObjects[i] == object) {
+      inMap = true;
+      index = i;
+    }
+  }
+  if (inMap) {
     //reducing the array's size by one
     SpaceObject** tempObjects = new SpaceObject*[this->numObjects-1];
     //moving all the objects in the array to their correct positions
@@ -224,7 +232,7 @@ void Map::scan() {
         break;
       } else {
         // interacting with selected object
-        done = nearby[playerResponse-1]->interact(*this->player);
+        done = nearby[playerResponse-1]->interact(this);
       }
     }
   }
