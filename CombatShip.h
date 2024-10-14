@@ -1,4 +1,5 @@
 #include "Ship.h"
+#include "Player.h"
 #include <string>
 
 #ifndef COMBATSHIP_H
@@ -7,6 +8,8 @@
 class CombatShip : public Ship{
 
 public:
+  //displaying the information of the cargoship
+  void scanInfo() override;
 
   //default constructor and normal constructor
   CombatShip();
@@ -21,7 +24,7 @@ public:
   //the attack ship function takes the inputs of the enemy ship and the damage it will deal
   //the receive damage function will take the input of the damage dealt to the combat ship
   //both take no output
-  void AttackShip(Ship& Enemy, int Damage);
+  void AttackShip(Player& Enemy, int Damage);
   void ReceiveDamage(int damageTaken) override;
 
   //the isDestroyed function serves to determine whether the ship has no health left and whether it should be removed from the map
@@ -31,9 +34,14 @@ public:
   //setters and getters
   int get_health() override;
   int get_damage() override;
+  bool get_doubleAttack();
 
   void set_health(int health) override;
   void set_damage(int damage) override;
+  void set_doubleAttack(bool doubleAttack);
+
+  
+  
 
   //randomise function which serves to create many random combat ships when the map is generated
   //takes no inputs or outputs
