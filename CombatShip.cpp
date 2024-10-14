@@ -3,6 +3,10 @@
 #include <random>
 #include "ItemSet.h"
 
+void CombatShip::scanInfo() {
+  std::cout << "\nHealth Points: " << get_health() << " Damage: " << get_damage() << std::endl;
+}
+
 // the combatShip's special attack function, where it attacks the enemy ship twice.
 void CombatShip::SpecialMove(){
   this->doubleAttack = true;
@@ -56,6 +60,13 @@ int CombatShip::get_damage(){
 }
 void CombatShip::set_damage(int Damage){
   this->Damage = Damage;
+}
+
+bool CombatShip::get_doubleAttack(){
+  return doubleAttack;
+}
+void CombatShip::set_doubleAttack(bool doubleAttack){
+  this->doubleAttack = doubleAttack;
 }
 
 //randomisation
