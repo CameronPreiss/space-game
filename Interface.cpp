@@ -74,6 +74,7 @@ void Interface::startGame() {
           }
           break;
         }
+        [[fallthrough]];
       case 2:
         // create new save
         cout << "Creating new game\n";
