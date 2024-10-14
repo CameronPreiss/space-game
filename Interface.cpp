@@ -70,6 +70,7 @@ void Interface::startGame() {
           } else {
             // set map to selected save
             this->map = this->saves[playerResponse-1];
+            break;
           }
           break;
         }
