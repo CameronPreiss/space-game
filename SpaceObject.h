@@ -24,7 +24,7 @@ public:
   virtual void scanInfo();
   
   //once the player scans for all the nearby planets and ships, they can choose to interact with one of these objects
-  virtual bool interact(Player& p1) { return false; };
+  virtual bool interact(Player&) { return false; };
 
   //setters and getters
   void set_size(int size);

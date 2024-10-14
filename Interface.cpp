@@ -1,4 +1,5 @@
 #include "Interface.h"
+#include <cstddef>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -53,7 +54,7 @@ void Interface::startGame() {
         } else {
           // get user input for which save to load
           cout << "[0] Back\n";
-          for (int i = 0; i < saves.size(); i++) {
+          for (size_t i = 0; i < saves.size(); i++) {
             cout << "[" << i+1 << "] Name: " << this->saves[i]->get_player()->get_name() << ", Balance: $" << this->saves[i]->get_player()->get_money() << endl;
           }
           // validate input
@@ -132,7 +133,12 @@ void Interface::loadSaves() {
   vector<Map*> newSaves;
   this->saves = newSaves;
   int numSaves = 0;
-  for (const auto& entry : fs::directory_iterator("./savefiles")) {
+  // check if directory exists, if not create it
+  std::string saveDir = "./savefiles";
+  if (!std::filesystem::exists(saveDir)) {
+    std::filesystem::create_directory(saveDir);
+  }
+  for (const auto& entry : fs::directory_iterator(saveDir)) {
     // Check if the file follows the pattern "savefileX.txt"
     if (entry.is_regular_file()) {
       std::string filename = entry.path().filename().string();

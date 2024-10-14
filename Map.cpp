@@ -4,6 +4,7 @@
 #include "ItemSet.h"
 #include "Planet.h"
 
+#include <cstddef>
 #include <cstdlib>
 #include <vector>
 #include <string>
@@ -88,7 +89,7 @@ void Map::movePlayer() {
   // validating input
   while (playerResponse == -1) {
     std::cin >> playerResponse;
-    if (playerResponse < 0 || playerResponse > locations.size() || std::cin.fail()) {
+    if (playerResponse < 0 || playerResponse > (int) locations.size() || std::cin.fail()) {
       std::cin.clear();
       std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
       playerResponse = -1;
@@ -189,14 +190,14 @@ void Map::scan() {
     while (!done) {
       cout << "[0] Back\n";
       // listing available objects to interact with
-      for (int i = 0; i < nearby.size(); i++) {
+      for (size_t i = 0; i < nearby.size(); i++) {
         cout << "[" << i+1 << "] " << nearby[i]->get_type() << " " << nearby[i]->get_name() << " at (" << nearby[i]->get_location()[0] << "," << nearby[i]->get_location()[1] << ")\n";
       }
       // getting player response for which object to interact with
       int playerResponse = -1;
       while (playerResponse == -1) {
         cin >> playerResponse;
-        if (playerResponse < 0 || playerResponse > nearby.size() + 1 || cin.fail()) {
+        if (playerResponse < 0 || playerResponse > (int) nearby.size() + 1 || cin.fail()) {
           playerResponse = -1;
           cin.clear();
           cin.ignore(numeric_limits<streamsize>::max(), '\n');

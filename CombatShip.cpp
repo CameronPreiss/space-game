@@ -22,7 +22,7 @@ CombatShip::CombatShip() : Ship(){
 }
 
 // the attack function, taking in the address of the enemy ship object and running the ReceiveDamage function with a specific damage
-void CombatShip::AttackShip(Ship& Enemy, int Damage){
+void CombatShip::AttackShip(Player& Enemy, int Damage){
   Enemy.ReceiveDamage(Damage);
   if (this->doubleAttack == true) {
     Enemy.ReceiveDamage(Damage);

@@ -19,7 +19,7 @@ Player::Player() {
 }
 
 //constructor
-Player::Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius, int damage) {
+Player::Player(std::string name, int location[2], int money, int* resources, int speed, int scanRadius, int) {
   this->location[0] = location[0];
   this->location[1] = location[1];
   this->money = money;
@@ -59,6 +59,11 @@ bool Player::removeMoney(int money) {
   } else {
     return 0;
   }
+}
+
+//receiving damage
+void Player::ReceiveDamage(int damageTaken) {
+  this->health -= damageTaken;
 }
 
 //setters and getters

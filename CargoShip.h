@@ -8,9 +8,6 @@ class CargoShip : public Ship{
 
 public:
 
-  //the interact function which here has no use (is a child function of Ship)
-  void interact() {}
-
   //the menu and interface that allows the user to interact with a cargoShip
   // bool interact(Player& p1) override;
 
@@ -38,8 +35,8 @@ public:
   bool isDestroyed() override;
 
   //setters and getters
-  int get_health() const;
-  int get_damage() const;
+  int get_health() override;
+  int get_damage() override;
 
   void set_health(int health) override;
   void set_damage(int damage) override;
