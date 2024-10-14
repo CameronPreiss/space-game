@@ -9,7 +9,7 @@ class CargoShip : public Ship{
 public:
 
   //the menu and interface that allows the user to interact with a cargoShip
-  // bool interact(Player& p1) override;
+  // bool interact(Map* map) override;
 
   //displaying the information of the cargoship
   void scanInfo() override;

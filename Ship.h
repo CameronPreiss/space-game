@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "SpaceObject.h"
+
 class Player;
 
 //abstract class, inherits from spaceObject, and will be inherited by combatShip and cargoShip
@@ -44,7 +45,7 @@ public:
   virtual void addItem(int index);
   
   //the interact function (child function of spaceObject)
-  bool interact(Player& p1);
+  bool interact(Map* map);
 
   //randomise function, which takes further use in the combatShip and cargoShip classes
   virtual void randomise() {};

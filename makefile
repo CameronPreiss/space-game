@@ -19,12 +19,17 @@ $(EXECUTABLE): $(OBJECTS)
 
 # Clean up object files and the executable
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE)
+	rm -f $(OBJECTS) $(EXECUTABLE) 
 
 # Run unit tests
 test:
 	$(CXX) $(CXXFLAGS) $(TESTFILE) -o $(TESTEXECUTABLE) $(SOURCES)
 	./unitTests
 
+# build the executable and run the executable
+run: $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(MAINFILE) $(OBJECTS) -o $(EXECUTABLE)
+	./spacegame
+	make clean
 # Phony targets
 .PHONY: clean

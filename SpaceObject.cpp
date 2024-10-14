@@ -58,3 +58,4 @@ std::string SpaceObject::get_type() {
 void SpaceObject::set_type(std::string type) {
   this->type = type;
 }
+

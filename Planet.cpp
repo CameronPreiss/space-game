@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include "ItemSet.h"
+#include "Map.h"
 
 //default constructor, using the SpaceObject constructor for efficiency
 Planet::Planet() : SpaceObject() {
@@ -40,7 +41,8 @@ void Planet::scanInfo() {
 }
 
 //the interact function with the input as the address of the player
-bool Planet::interact(Player& p1) {
+bool Planet::interact(Map* map) {
+  Player& p1 = *map->get_player();
   bool done = false;
   while (!done) {
     // getting user input
