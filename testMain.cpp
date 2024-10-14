@@ -1,6 +1,6 @@
 #include "MapTests.h"
 #include "PlayerTests.h"
-#include "Map.h"
+#include "CargoShipUnitTest.h"
 #include <iostream>
 
 int main() {
@@ -10,5 +10,10 @@ int main() {
   PlayerTests playerTests;
   std::cout << "Player tests:\n";
   playerTests.runTests();
+  CargoTest cargoTests;
+  std::cout << "CargoShip tests:\n";
+  cargoTests.runTest();
+
+
   return 0;
 }

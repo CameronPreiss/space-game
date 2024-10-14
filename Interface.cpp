@@ -62,6 +62,7 @@ void Interface::startGame() {
           while (playerResponse == -1) {
             cin >> playerResponse;
             responseReset(&playerResponse, 0, saves.size());
+            break;
           }
           if (playerResponse == 0) {
             // go back to main menu
