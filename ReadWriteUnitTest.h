@@ -12,15 +12,15 @@ public:
     void runTest(){
         std::string name = "jaiden";
         Map map = Map(name);
-        int index = map.get_saveIndex(); 
         map.saveToFile();
+        int index = map.get_saveIndex(); 
         Map map2 = Map();
         map2.loadFromFile(index);
 
-        if(map2->player.get_name() == name){
-            std::cout << "save and load test passed" << std::endl;
+        if(map2.get_player()->get_name() == name){
+            std::cout << "save and load test passed ✔" << std::endl;
         } else {
-            std::cout << "save and load test failed" << std::endl;
+            std::cout << "save and load test failed ✖" << std::endl;
         }
     }
 

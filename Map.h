@@ -22,6 +22,7 @@ public:
   int get_mapSize();
   int get_numObjects();
   Player* get_player();
+  int get_saveIndex();
 
   //moves the player to a different position in the map
   void movePlayer();

@@ -91,6 +91,9 @@ int Map::get_numObjects() {
 Player* Map::get_player() {
   return this->player;
 }
+int Map::get_saveIndex() {
+  return this->saveIndex;
+}
 
 //move player
 void Map::movePlayer() { 
@@ -242,6 +245,9 @@ void Map::scan() {
 void Map::loadFromFile(int index) {
   ItemSet items;
   std::string filename = "./savefiles/savefile";
+  if (!std::filesystem::exists("./savefiles")) {
+    std::filesystem::create_directory("./savefiles");
+  }
   filename += std::to_string(index);
   filename += ".txt";
   std::ifstream inFile(filename);
@@ -324,6 +330,11 @@ void Map::saveToFile() {
   ItemSet items;
   if (this->saveIndex == -1) {
     int numSaves = 0;
+    // creating the directory if it does not exist
+    std::string saveDir = "./savefiles";
+    if (!std::filesystem::exists("./savefiles")) {
+      return;
+    }
     for (const auto& entry : fs::directory_iterator("./savefiles")) {
       // Check if the file follows the pattern "savefileX.txt"
       if (entry.is_regular_file()) {
