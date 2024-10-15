@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <iostream>
+#include <limits>
 #include "ItemSet.h"
 
 //default constructor
