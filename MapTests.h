@@ -28,7 +28,7 @@ private:
     Map map("test");
     CombatShip testObject;
     map.addObject(&testObject);
-    map.destroyObject(0);
+    map.destroyObject(&testObject);
     if (map.get_numObjects() == 0) {
       std::cout << "DestroyObject test passed ✓\n";
     } else {
